@@ -61,3 +61,6 @@ void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
 void printUsers(userPtr currentUserPtr);
 int isEmpty(userPtr ptr);
 
+// Function to request and store tweets from the user
+void requestTweets (char *currentUser);
+
