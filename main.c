@@ -1,9 +1,4 @@
 #include <stdio.h>
-<<<<<<< HEAD
-#include <string.h>
-#include "twitter_create.h"
-
-=======
 #include "twitter_create.h"
 
 
@@ -16,8 +11,7 @@ int main() {
     {
         printf("User name is: ");
         printf("%s, ", twitter_system.userlist[i].username);
-        printf("with %d followers and %d following\n", twitter_system.userlist[i].num_followers, twitter_system.userlist[i].num_following);
-
+        printf("with %d followers and %d following.\n", twitter_system.userlist[i].num_followers, twitter_system.userlist[i].num_following);
     }
 
     //implement here the code to print the users

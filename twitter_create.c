@@ -3,35 +3,88 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "twitter_create.h"
 
 void create_twitter_system(twitter *twitter_system)
 {
-    int i; //no. of users filled
-    int j; //no. of followers
-    int k; //no. of following
-    char escapeinput[10] = "exit";
+    char name[USR_LENGTH];
+    char escape[10] = "exit";
+    userPtr startPtr = NULL;
 
-    for (i = 0; i < MAX_USERS; i++)
+    while (strcmp(name, escape) != 0)
     {
-        puts("Enter a unique username, or enter exit to end input.");
-        scanf("%s", twitter_system->userlist[i].username);
+        printf("Please enter the user's name or type exit to terminate: \n");
+        fgets(name, USR_LENGTH, stdin);
 
-        if (strcasecmp(twitter_system->userlist[i].username, escapeinput) != 0)
+        if (name[strlen(name) - 1] == '\n')
+        { name[strlen(name) - 1] = '\0'; }
+
+        if (strcmp(name, escape) != 0)
+
+            createUser(&startPtr, name);
+
+    }
+
+    if (strcmp(name, escape) == 0 )
+    {
+        puts("You are finished entering users.");
+    }
+
+    printUsers(startPtr);
+}
+
+void createUser (userPtr *uPtr, char name[USR_LENGTH])
+{
+    userPtr newUserPtr = malloc (sizeof (user));
+
+    if (newUserPtr != NULL){
+        strcpy(newUserPtr->username, name);
+        newUserPtr->nextUserPtr = NULL;
+
+        userPtr previousUserPtr = NULL;
+        userPtr currentUserPtr = *uPtr;
+
+        while ((currentUserPtr != NULL) && (strcasecmp(name, currentUserPtr->username)) > 0)
         {
-            twitter_system->userlist[i].num_followers = 0;
-            twitter_system->userlist[i].num_following = 0;
-
-            for (j = 0; j < MAX_FOLLOWERS; j++)
-            { twitter_system->userlist[i].followers[j] = ""; }
-
-            for (k = 0; k < MAX_FOLLOWING; k++)
-            { twitter_system->userlist[i].followers[k] = ""; }
+            previousUserPtr = currentUserPtr;
+            currentUserPtr = currentUserPtr->nextUserPtr;
         }
 
-        else
-        { break; }
+        if (previousUserPtr == NULL)
+        {
+            newUserPtr->nextUserPtr = *uPtr;
+            *uPtr = newUserPtr;
+        }
+
+        else {
+            previousUserPtr->nextUserPtr = newUserPtr;
+            newUserPtr->nextUserPtr = currentUserPtr;
+        }
     }
-    twitter_system->filledusers = i;
+    else puts("No memory");
+}
+
+
+int isEmpty(userPtr ptr)
+{ return ptr == NULL; }
+
+void printUsers(userPtr currentUser)
+{
+    if (isEmpty(currentUser))
+    { puts("List is empty.\n"); }
+
+    else
+    {
+        puts("All the users are: ");
+
+        while (currentUser != NULL)
+        {
+            printf("?: %s, with %d followers and %d following.\n",
+                   currentUser->username, currentUser->num_followers, currentUser->num_following);
+
+            currentUser = currentUser->nextUserPtr;
+        }
+    }
 }

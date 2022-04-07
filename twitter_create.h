@@ -42,7 +42,11 @@ typedef struct user
 
     char *following[MAX_FOLLOWING];
     int num_following;
+
+    struct user *nextUserPtr;
 }user;
+
+typedef user *userPtr;
 
 typedef struct twitter
 {
@@ -52,4 +56,8 @@ typedef struct twitter
 }twitter;
 
 void create_twitter_system(twitter * twitter_system);
+
+void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
+void printUsers(userPtr currentUserPtr);
+int isEmpty(userPtr ptr);
 
