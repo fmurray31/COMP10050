@@ -25,13 +25,12 @@ int main() {
                twitter_system.userlist[i].num_following);
     }
 
-    puts("Ended print loop");
     // Main loop through all users
     for (int i = 0; i < twitter_system.filledusers; i++) {
         // Variable to check whether a user has passed
         int userPass = 0;
 
-        puts("Entered main loop");
+        printf("Current user is %s\n", twitter_system.userlist[i].username);
 
         // Loop runs until the user passes or the program is ended
         while (userPass == 0) {
@@ -40,28 +39,30 @@ int main() {
                    "or 5 to end the program: \n");
 
             // Variable for storing the users input on the menu selection
-            char menuSelection;
-            fgets(&menuSelection, 2, stdin);
+            int menuSelection;
+            //fgets(&menuSelection, 2, stdin);
+            scanf("%d", &menuSelection);
 
             // Switch statement to work through different menu options
             switch (menuSelection) {
-                case '1':
+                case 1:
                     postTweet(twitter_system.userlist[i].username);
                     break;
 
-                case '2': // Function not yet written
+                case 2: // Function not yet written
                     //followUser;
                     break;
 
-                case '3': // Function not yet written
+                case 3: // Function not yet written
                     //unfollowUser;
                     break;
 
-                case '4':
+                case 4:
                     userPass = 1;
+                    printf("Turn ended \n");
                     break;
 
-                case '5': // Ends the program
+                case 5: // Ends the program
                     printf("Ending program");
                     exit(0);
 
@@ -71,7 +72,6 @@ int main() {
         }
 
     }
-    puts("Program end");
 }
 
 
@@ -85,18 +85,11 @@ int main() {
 
 // Function to request and store tweets from a user
 void postTweet (char *currentUser) {
-    char userInput[1] = "y";
-    char yCase[1] = "y";
-
-    while (strcmp(userInput, yCase) == 0) {
-        tweetList[tweetCount].id = tweetCount;
-        printf("Write up to 270 characters for your tweet: \n");
-        fgets(tweetList[tweetCount].msg, TWEET_LENGTH, stdin);
-        strcpy(tweetList[tweetCount].user, currentUser);
-        printf("\n");
-
-        // *** Needs error checking for user input ***
-        printf("Enter y to write another tweet, or n to finish: \n");
-        fgets(userInput, 2, stdin);
-    }
+    tweetList[tweetCount].id = tweetCount;
+    printf("Write up to 270 characters for your tweet: \n");
+    //fgets(tweetList[tweetCount].msg, TWEET_LENGTH, stdin);
+    scanf("%s", tweetList[tweetCount].msg);
+    strcpy(tweetList[tweetCount].user, currentUser);
+    tweetCount++;
+    printf("\n");
 }

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "twitter_create.h"
-
+/*
 void create_twitter_system(twitter *twitter_system)
 {
     char name[USR_LENGTH];
@@ -91,4 +91,4 @@ void printUsers(userPtr currentUser)
             currentUser = currentUser->nextUserPtr;
         }
     }
-}
+}*/
