@@ -9,6 +9,8 @@ struct tweet tweetList[MAX_TWEETS];
 // Global variable for total number of tweets
 int tweetCount = 0;
 
+// Temporary function to print out all tweets
+void tempTweetPrint (void);
 
 int main() {
 
@@ -35,8 +37,8 @@ int main() {
         // Loop runs until the user passes or the program is ended
         while (userPass == 0) {
             // Requesting user input from a selection of options
-            printf("Enter 1 to write a tweet, 2 to follow a user, 3 to unfollow a user, 4 to end your turn \n"
-                   "or 5 to end the program: \n");
+            printf("Enter 1 to write a tweet, 2 to get your news feed, 3 to follow a user, 4 to unfollow a user, \n"
+                   "5 to end your turn or 6 to end the program: \n");
 
             // Variable for storing the users input on the menu selection
             int menuSelection;
@@ -45,24 +47,28 @@ int main() {
 
             // Switch statement to work through different menu options
             switch (menuSelection) {
-                case 1:
+                case 1: // Allows user to post a tweet
                     postTweet(twitter_system.userlist[i].username);
                     break;
 
-                case 2: // Function not yet written
-                    //followUser;
+                case 2: // Prints news feed (currently prints out all tweets)
+                    tempTweetPrint();
                     break;
 
                 case 3: // Function not yet written
+                    //followUser;
+                    break;
+
+                case 4: // Function not yet written
                     //unfollowUser;
                     break;
 
-                case 4:
+                case 5:
                     userPass = 1;
                     printf("Turn ended \n");
                     break;
 
-                case 5: // Ends the program
+                case 6: // Ends the program
                     printf("Ending program");
                     exit(0);
 
@@ -70,18 +76,8 @@ int main() {
                     printf("Invalid input\n");
             }
         }
-
     }
 }
-
-
-
-
-
-
-    //implement here the code to print the users
-    // for each user you need to print the username, the number of followers and the number of users that the current user is following
-
 
 // Function to request and store tweets from a user
 void postTweet (char *currentUser) {
@@ -92,4 +88,15 @@ void postTweet (char *currentUser) {
     strcpy(tweetList[tweetCount].user, currentUser);
     tweetCount++;
     printf("\n");
+}
+
+// Temp tweet print function
+void tempTweetPrint (void)
+{
+    // Iterates through every tweet, printing each one and the relevant user
+    for (int i=0; i<tweetCount; i++)
+    {
+        printf("%s \n", tweetList[i].user);
+        printf("%s \n\n", tweetList[i].msg);
+    }
 }
