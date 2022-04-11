@@ -15,11 +15,11 @@ void create_twitter_system(twitter *twitter_system)
 
     for (i = 0; i < MAX_USERS; i++)
     {
-        puts("Enter a unique username, or enter exit to end input.");
-        fscanf(stdin, "%s", twitter_system->userlist[i].username);
+        printf("Enter a unique username, or enter exit to end input.\n");
+        fgets(twitter_system->userlist[i].username, USR_LENGTH, stdin);
 
-        if (twitter_system->userlist[i].username[strlen(twitter_system->userlist[i].username-1)] == '\n')
-        { twitter_system->userlist[i].username[strlen(twitter_system->userlist[i].username-1)] = '\0'; }
+        if (twitter_system->userlist[i].username[strlen(twitter_system->userlist[i].username)-1] == '\n')
+        { twitter_system->userlist[i].username[strlen(twitter_system->userlist[i].username)-1] = '\0'; }
 
         if (strcasecmp(twitter_system->userlist[i].username, escapeinput) != 0)
         {

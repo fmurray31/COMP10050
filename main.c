@@ -9,9 +9,6 @@ struct tweet tweetList[MAX_TWEETS];
 // Global variable for total number of tweets
 int tweetCount = 0;
 
-// Temporary function to print out all tweets
-void tempTweetPrint (void);
-
 int main() {
 
     twitter twitter_system;
@@ -32,13 +29,13 @@ int main() {
         // Variable to check whether a user has passed
         int userPass = 0;
 
-        printf("Current user is %s\n", twitter_system.userlist[i].username);
+        printf("\nCurrent user is: %s\n\n", twitter_system.userlist[i].username);
 
         // Loop runs until the user passes or the program is ended
         while (userPass == 0) {
             // Requesting user input from a selection of options
-            printf("Enter 1 to write a tweet, 2 to get your news feed, 3 to follow a user, 4 to unfollow a user, \n"
-                   "5 to end your turn or 6 to end the program: \n");
+            printf("Enter 1 to write a tweet, 2 to get your news feed, 3 to follow a user, \n"
+                   "4 to unfollow a user, 5 to end your turn or 6 to end the program: \n");
 
             // Variable for storing the users input on the menu selection
             int menuSelection;

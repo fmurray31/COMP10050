@@ -7,6 +7,8 @@
 
 #endif //ASSIGNMENT2_TWITTER_CREATE_H
 
+//DEFINITIONS HERE:
+
 //Max length of a tweet
 #define TWEET_LENGTH 270
 
@@ -24,6 +26,8 @@
 
 //Max num of users
 #define MAX_USERS 100
+
+// STRUCTS AND POINTER TYPES HERE:
 
 typedef struct tweet
 {
@@ -46,7 +50,7 @@ typedef struct user
     struct user *nextUserPtr;
 }user;
 
-typedef user *userPtr;
+//typedef user *userPtr;
 
 typedef struct twitter
 {
@@ -55,12 +59,18 @@ typedef struct twitter
     tweet tweetname;
 }twitter;
 
+// FUNCTIONS HERE:
+
 void create_twitter_system(twitter * twitter_system);
 
-void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
-void printUsers(userPtr currentUserPtr);
-int isEmpty(userPtr ptr);
+// void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
+// void printUsers(userPtr currentUserPtr);
+// int isEmpty(userPtr ptr);
 
 // Function to request and store tweets from the user
 void postTweet (char *currentUser);
 
+// Temporary function to print out all tweets
+void tempTweetPrint (void);
+
+//GLOBAL VARIABLES HERE:
