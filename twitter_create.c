@@ -13,7 +13,7 @@ void create_twitter_system(twitter *twitter_system)
     char escape[10] = "exit";
     userPtr startPtr = NULL;
 
-    while (strcmp(name, escape) != 0)
+    while (strcasecmp(name, escape) != 0)
     {
         printf("Please enter the user's name or type exit to terminate: \n");
         fgets(name, USR_LENGTH, stdin);
@@ -41,6 +41,10 @@ void createUser (userPtr *uPtr, char name[USR_LENGTH])
 
     if (newUserPtr != NULL){
         strcpy(newUserPtr->username, name);
+        // Setting followers and following to 0
+        newUserPtr->num_following = 0;
+        newUserPtr->num_followers = 0;
+
         newUserPtr->nextUserPtr = NULL;
 
         userPtr previousUserPtr = NULL;

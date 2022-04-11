@@ -62,5 +62,5 @@ void printUsers(userPtr currentUserPtr);
 int isEmpty(userPtr ptr);
 
 // Function to request and store tweets from the user
-void requestTweets (char *currentUser);
+void postTweet (char *currentUser);
 
