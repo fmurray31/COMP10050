@@ -67,7 +67,7 @@ void create_twitter_system(twitter * twitter_system);
 void printUsers (twitter * twitter_system);
 
 // Function to request and store tweets from the user
-void postTweet (user *currentUser);
+void postTweet (char *currentUser);
 
 // Temporary function to print out all tweets
 void tempTweetPrint (void);
@@ -79,7 +79,7 @@ void followUser (userPtr currentUser, twitterPtr twitter_system);
 void unfollowUser (user *currentUser, twitter *twitter_system);
 
 // Function to delete user, including deleting old tweets and removing them from follower lists
-void deleteUser (user *currentUser);
+void deleteUser (user *currentUser, twitter *twitter_system);
 
 // void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
 // void printUsers(userPtr currentUserPtr);

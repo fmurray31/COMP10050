@@ -32,7 +32,7 @@ int main() {
             // Switch statement to work through different menu options
             switch (menuSelection) {
                 case 1: // Allows user to post a tweet
-                    postTweet(&twitter_system.userlist[i]);
+                    postTweet(twitter_system.userlist[i].username);
                     break;
 
                 case 2: // Prints news feed (currently prints out all tweets)
@@ -48,7 +48,7 @@ int main() {
                     break;
 
                 case 5: //User deletes their account
-                    deleteUser (&twitter_system.userlist[i].username);
+                    deleteUser (&twitter_system.userlist[i], &twitter_system);
                     break;
 
                 case 6: // User chooses to end their turn
