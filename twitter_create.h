@@ -67,7 +67,7 @@ void create_twitter_system(twitter * twitter_system);
 void printUsers (twitter * twitter_system);
 
 // Function to request and store tweets from the user
-void postTweet (user *currentUser);
+void postTweet (char *currentUser);
 
 // Temporary function to print out all tweets
 void tempTweetPrint (void);

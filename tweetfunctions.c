@@ -6,12 +6,12 @@
 #include "twitter_create.h"
 
 // Function to request and store tweets from a user
-void postTweet (user *currentUser) {
+void postTweet (char *currentUser) {
     tweetList[tweetCount].id = tweetCount;
     printf("Write up to 270 characters for your tweet: \n");
     fgets(tweetList[tweetCount].msg, TWEET_LENGTH, stdin);
     //scanf("%s", tweetList[tweetCount].msg);
-    strcpy(tweetList[tweetCount].user, currentUser->username);
+    strcpy(tweetList[tweetCount].user, currentUser);
     tweetCount++;
     printf("\n");
 }

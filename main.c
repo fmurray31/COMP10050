@@ -31,7 +31,7 @@ int main() {
             // Switch statement to work through different menu options
             switch (menuSelection) {
                 case 1: // Allows user to post a tweet
-                    postTweet(&twitter_system.userlist[i]);
+                    postTweet(twitter_system.userlist[i].username);
                     break;
 
                 case 2: // Prints news feed (currently prints out all tweets)

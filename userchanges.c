@@ -54,9 +54,11 @@ void followUser (user *currentUser, twitter *twitter_system)
 
                     found = 1; //switch bool to jump out of while loop
                 }
-                i++; //increment while loop to next in userist
+                i++; //increment while loop to next in userlist
             }
-        }
+            if (found == 0) //if person is not found in userlist
+            { printf("This user doesn't exist.\n"); }
+        } //end user choice 1
 
         else if (userChoice == 2) //print users choice
         { printUsers(twitter_system); }
@@ -77,7 +79,7 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
 
     while (userChoice == 1 || userChoice == 2)
     {
-        if (userChoice == 1)
+        if (userChoice == 1) //if user wants to unfollow someone
         {
             printf("Enter the name of the user you would like to unfollow: \n");
             fscanf(stdin, "%s", unfollowname); //user input for name of person they want to follow
@@ -85,16 +87,37 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
             //error handling for adding string null terminator
             if ( unfollowname[strlen(unfollowname)-1] == '\n')
             { unfollowname[strlen(unfollowname)-1] = '\0'; }
+
+            int i = 0;
+            int found = 0; //bool to see if there is a matching user in your following list
+            while (i < currentUser->num_following && found == 0)//iterate through whole following list
+            {
+                if ( strcmp(currentUser->following[i], unfollowname) == 0 ) //if a matching user is found
+                {
+                    int numfollowing = currentUser->num_following; //no. of users in the following list
+                    for (int j = i; j < numfollowing; j++) //starting from place we found user to be unfollowed
+                    {
+                        strcpy(currentUser->following[j], ""); //empty the spot
+                        strcpy(currentUser->following[j], currentUser->following[j+1]); //copy over next following user, to fill spot
+                    }
+                    strcpy(currentUser->following[numfollowing], ""); //place an empty in the last location after carry-overs of following done
+
+                    currentUser->num_following--; //decrement number of following
+                    found = 1; //switch bool to jump out of while loop
+                }
+                i++; //increment while loop to next in userlist
+            }
+            if (found == 0) //if user doesnt exist in following list
+            { printf("You are not currently following this user. You are unable to unfollow them.\n"); }
         }
 
-        else if (userChoice == 2)
+        else if (userChoice == 2) //if user wants to print their following list
         {
-            int i = 0;
-            int found = 0; //bool to see if there is a matching user in userlist
-            while (i < currentUser->num_following && found == 0)//iterate through all existing users
-            {
-
-            }
+            printf("You are currently following: \n");
+           for (int i = 0; i < currentUser->num_following; i++)
+           {
+               printf("%d: %s\n", i+1, currentUser->following[i]); //just prints their names stored in array as strings
+           }
         }
 
         //next round of choices for follow or exit
