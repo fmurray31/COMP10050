@@ -78,6 +78,9 @@ void followUser (userPtr currentUser, twitterPtr twitter_system);
 //Function to let a user unfollow other users
 void unfollowUser (user *currentUser, twitter *twitter_system);
 
+// Function to delete user, including deleting old tweets and removing them from follower lists
+void deleteUser (user *currentUser);
+
 // void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
 // void printUsers(userPtr currentUserPtr);
 // int isEmpty(userPtr ptr);

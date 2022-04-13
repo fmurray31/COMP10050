@@ -54,7 +54,7 @@ void followUser (user *currentUser, twitter *twitter_system)
 
                     found = 1; //switch bool to jump out of while loop
                 }
-                i++; //increment while loop to next in userist
+                i++; //increment while loop to next in userlist
             }
         }
 
@@ -102,4 +102,18 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
         scanf("%d", &userChoice);
     }
 
+}
+
+void deleteUser (user *currentUser)
+{
+    int i, j;
+
+    for (i=0; i<filledUsers; i++)
+    {
+        for (j=0; j<currentUser->num_following; j++)
+        {
+
+        }
+    }
+    
 }
