@@ -3,12 +3,19 @@
 //
 #include <stdio.h>
 #include <string.h>
+#ifndef twitter_func
 #include "twitter_create.h"
+#endif
 
+extern int filledUsers; //no of total users filled in (for general use in loops)
+extern int tweetCount; //total number of tweets
+extern tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
 // Function to request and store tweets from a user
+
 void postTweet (char *currentUser) {
     tweetList[tweetCount].id = tweetCount;
     printf("Write up to 270 characters for your tweet: \n");
+    fflush(stdin);
     fgets(tweetList[tweetCount].msg, TWEET_LENGTH, stdin);
     //scanf("%s", tweetList[tweetCount].msg);
     strcpy(tweetList[tweetCount].user, currentUser);

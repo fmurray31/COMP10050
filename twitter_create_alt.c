@@ -1,57 +1,96 @@
+
+
 //
 // Created by Lili on 30/03/2022.
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include "twitter_create.h"
-
+/*
+ * #include "twitter_create.h"
 void create_twitter_system(twitter *twitter_system)
 {
-    int i; //no. of users filled
-    int j; //no. of followers
-    int k; //no. of following
-    char escapeinput[10] = "exit"; //type this to exit function
+    char name[USR_LENGTH];
+    char escape[10] = "exit";
+    userPtr startPtr = NULL;
 
-    for (i = 0; i < MAX_USERS; i++)
+    while (strcasecmp(name, escape) != 0)
     {
-        printf("Enter a unique username, or enter exit to end input.\n");
-        fgets(twitter_system->userlist[i].username, USR_LENGTH, stdin); //take in username
+        printf("Please enter the user's name or type exit to terminate: \n");
+        fgets(name, USR_LENGTH, stdin);
 
-        //error handling for replacing newline with null string terminator
-        if (twitter_system->userlist[i].username[strlen(twitter_system->userlist[i].username)-1] == '\n')
-        { twitter_system->userlist[i].username[strlen(twitter_system->userlist[i].username)-1] = '\0'; }
+        if (name[strlen(name) - 1] == '\n')
+        { name[strlen(name) - 1] = '\0'; }
 
-        //if there is a valid name given
-        if (strcasecmp(twitter_system->userlist[i].username, escapeinput) != 0)
+        if (strcmp(name, escape) != 0)
+
+            createUser(&startPtr, name);
+
+    }
+
+    if (strcmp(name, escape) == 0 )
+    {
+        puts("You are finished entering users.");
+    }
+
+    printUsers(startPtr);
+}
+
+void createUser (userPtr *uPtr, char name[USR_LENGTH])
+{
+    userPtr newUserPtr = malloc (sizeof (user));
+
+    if (newUserPtr != NULL){
+        strcpy(newUserPtr->username, name);
+        // Setting followers and following to 0
+        newUserPtr->num_following = 0;
+        newUserPtr->num_followers = 0;
+
+        newUserPtr->nextUserPtr = NULL;
+
+        userPtr previousUserPtr = NULL;
+        userPtr currentUserPtr = *uPtr;
+
+        while ((currentUserPtr != NULL) && (strcasecmp(name, currentUserPtr->username)) > 0)
         {
-            //populate the struct with empty values
-            twitter_system->userlist[i].num_followers = 0;
-            twitter_system->userlist[i].num_following = 0;
-
-            for (j = 0; j < MAX_FOLLOWERS; j++)
-            { twitter_system->userlist[i].followers[j] = ""; }
-
-            for (k = 0; k < MAX_FOLLOWING; k++)
-            { twitter_system->userlist[i].followers[k] = ""; }
+            previousUserPtr = currentUserPtr;
+            currentUserPtr = currentUserPtr->nextUserPtr;
         }
 
-        else
-        { break; }
-    }
+        if (previousUserPtr == NULL)
+        {
+            newUserPtr->nextUserPtr = *uPtr;
+            *uPtr = newUserPtr;
+        }
 
-    twitter_system->filledusers = i; //store number of users in struct
-    filledUsers = i; //store number of users in global variable (for general use in main)
+        else {
+            previousUserPtr->nextUserPtr = newUserPtr;
+            newUserPtr->nextUserPtr = currentUserPtr;
+        }
+    }
+    else puts("No memory");
 }
 
-//Whole userlist print function
-void printUsers (twitter * twitter_system)
+
+int isEmpty(userPtr ptr)
+{ return ptr == NULL; }
+
+void printUsers(userPtr currentUser)
 {
-    for (int i = 0; i < filledUsers; i++)
+    if (isEmpty(currentUser))
+    { puts("List is empty.\n"); }
+
+    else
     {
-        printf("User name is: ");
-        printf("%s, ", twitter_system->userlist[i].username);
-        printf("with %d followers and %d following.\n", twitter_system->userlist[i].num_followers,
-               twitter_system->userlist[i].num_following);
+        puts("All the users are: ");
+
+        while (currentUser != NULL)
+        {
+            printf("?: %s, with %d followers and %d following.\n",
+                   currentUser->username, currentUser->num_followers, currentUser->num_following);
+
+            currentUser = currentUser->nextUserPtr;
+        }
     }
-}
+}*/

@@ -3,6 +3,10 @@
 #include <string.h>
 #include <stdlib.h>
 
+int filledUsers; //no of total users filled in (for general use in loops)
+int tweetCount; //total number of tweets
+tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
+
 int main() {
 
     twitter twitter_system;
@@ -11,7 +15,7 @@ int main() {
     printUsers(&twitter_system);     // Function call, prints out all users created
 
     // Menu of functions, loops through all users
-    for (int i = 0; i < filledUsers; i++) {
+    for (int i = 0; i < twitter_system.filledusers; i++) {
         // Variable to check whether a user has passed
         int userPass = 0;
 

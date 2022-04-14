@@ -52,7 +52,7 @@ typedef struct twitter
 {
     int filledusers; //number of users filled in
     user userlist[MAX_USERS]; //array of structs containing users
-    tweet tweetname; //start pointer to linked list of all tweets
+    tweet tweetname[MAX_TWEETS]; //start pointer to linked list of all tweets
 }twitter;
 
 //POINTER TO A DATA TYPE OF STRUCT TWITTER
@@ -87,6 +87,4 @@ void deleteUser (user *currentUser, twitter *twitter_system);
 
 //GLOBAL VARIABLES HERE:
 
-int filledUsers; //no of total users filled in (for general use in loops)
-int tweetCount; //total number of tweets
-tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
+

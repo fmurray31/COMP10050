@@ -27,7 +27,7 @@ void followUser (user *currentUser, twitter *twitter_system)
 
             int i = 0;
             int found = 0; //bool to see if there is a matching user in userlist
-            while (i < filledUsers && found == 0)//iterate through all existing users
+            while (i < twitter_system->filledusers && found == 0)//iterate through all existing users
             {
                 //if you find a username in the userlist that matches input
                 if ( strcmp(twitter_system->userlist[i].username, followname) == 0 )
@@ -106,7 +106,7 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
                     //implement having the other person's follower count and follower list decrease
                     int k = 0;
                     int found2 = 0; //bool to find user in twitter list of users
-                    while (k < filledUsers && found2 == 0) //iterate through twitter list
+                    while (k < twitter_system->filledusers && found2 == 0) //iterate through twitter list
                     {
                         if ( strcmp(twitter_system->userlist[k].username, unfollowname) == 0 ) //if unfollowed user found
                         {
@@ -156,7 +156,7 @@ void deleteUser (user *currentUser, twitter *twitter_system)
     int i, j, k;
 
     // Deleting currentUser from all other user's following lists
-    for (i=0; i<filledUsers; i++) // Iterate through all users
+    for (i=0; i<twitter_system->filledusers; i++) // Iterate through all users
     {
         for (j=0; j<currentUser->num_following; j++) // Iterate through user followers
         {
@@ -175,19 +175,19 @@ void deleteUser (user *currentUser, twitter *twitter_system)
     }
 
     // Deleting currentUser from all other user's followed lists
-    for (i=0; i<filledUsers; i++) // Iterate through all users
+    for (i=0; i<twitter_system->filledusers; i++) // Iterate through all users
     {
         for (j=0; j<currentUser->num_followers; j++) // Iterate through user followers
         {
             if (strcmp(currentUser->username, twitter_system->userlist[i].followers[j]) == 0)
             {
-                strcpy(twitter_system->userlist[i].followers[j], ""); // Replacing currentUser with an empty string
-
                 // Loop to move the now empty array location to the end of the array
                 for (k=j; k<twitter_system->userlist[i].num_followers; k++)
                 {
                     strcpy(twitter_system->userlist[i].followers[k], twitter_system->userlist[i].followers[k+1]);
                 }
+                strcpy(twitter_system->userlist[i].followers[k+1], ""); // Replacing currentUser with an empty string
+
                 --twitter_system->userlist[i].num_followers; // Decrementing followers count
             }
         }
