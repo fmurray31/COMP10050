@@ -33,3 +33,9 @@ void tempTweetPrint (void)
         printf("%s \n\n", tweetList[i].msg);
     }
 }
+
+// News feed function
+void newsFeed (user *currentUser, twitter *twitter_system)
+{
+
+}

@@ -162,13 +162,16 @@ void deleteUser (user *currentUser, twitter *twitter_system)
         {
             if (strcmp(currentUser->username, twitter_system->userlist[i].following[j]) == 0)
             {
-                strcpy(twitter_system->userlist[i].following[j], ""); // Replacing currentUser with an empty string
+                //strcpy(twitter_system->userlist[i].following[j], ""); // Replacing currentUser with an empty string
 
                 // Loop to move the now empty array location to the end of the array
                 for (k=j; k<twitter_system->userlist[i].num_following; k++)
                 {
-                    strcpy(twitter_system->userlist[i].following[k], twitter_system->userlist[i].following[k+1]);
+                    twitter_system->userlist[i].following[k] = twitter_system->userlist[i].following[k+1];
                 }
+
+                twitter_system->userlist[i].following[k] = NULL;
+
                 --twitter_system->userlist[i].num_following; // Decrementing following count
             }
         }
@@ -184,9 +187,10 @@ void deleteUser (user *currentUser, twitter *twitter_system)
                 // Loop to move the now empty array location to the end of the array
                 for (k=j; k<twitter_system->userlist[i].num_followers; k++)
                 {
-                    strcpy(twitter_system->userlist[i].followers[k], twitter_system->userlist[i].followers[k+1]);
+                    twitter_system->userlist[i].followers[k] = twitter_system->userlist[i].followers[k+1];
                 }
-                strcpy(twitter_system->userlist[i].followers[k+1], ""); // Replacing currentUser with an empty string
+
+                twitter_system->userlist[i].followers[k] = NULL;
 
                 --twitter_system->userlist[i].num_followers; // Decrementing followers count
             }
@@ -195,15 +199,14 @@ void deleteUser (user *currentUser, twitter *twitter_system)
 
 
 
-    /* Rough outline for tweet deletion, needs tweet structs to work
-     *
+    // Rough outline for tweet deletion, needs tweet structs to work
+     /*
     // Deleting all currentUser tweets
     while (pointer != NULL)
     {
         // Check for tweet.user == currentUser
         // Free tweetptr
         // Link previous tweet to next tweet
-    }
-     */
+    }*/
 
 }

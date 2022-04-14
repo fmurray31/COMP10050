@@ -40,7 +40,8 @@ int main() {
                     break;
 
                 case 2: // Prints news feed (currently prints out all tweets)
-                    tempTweetPrint();
+                    //tempTweetPrint();
+                    newsFeed (twitter_system.userlist[i].username, &twitter_system);
                     break;
 
                 case 3: // User follows other users

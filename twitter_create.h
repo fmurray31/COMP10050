@@ -81,6 +81,9 @@ void unfollowUser (user *currentUser, twitter *twitter_system);
 // Function to delete user, including deleting old tweets and removing them from follower lists
 void deleteUser (user *currentUser, twitter *twitter_system);
 
+// Function to print the news feed, the last 10 tweets from the current user and any followed users
+void newsFeed (user *currentUser, twitter *twitter_system);
+
 // void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
 // void printUsers(userPtr currentUserPtr);
 // int isEmpty(userPtr ptr);
