@@ -31,10 +31,10 @@ void create_twitter_system(twitter *twitter_system)
             twitter_system->userlist[i].num_following = 0;
 
             for (j = 0; j < MAX_FOLLOWERS; j++)
-            { twitter_system->userlist[i].followers[j] = ""; }
+            { twitter_system->userlist[i].followers[j] = NULL; }
 
             for (k = 0; k < MAX_FOLLOWING; k++)
-            { twitter_system->userlist[i].followers[k] = ""; }
+            { twitter_system->userlist[i].following[k] = NULL; }
         }
 
         else
