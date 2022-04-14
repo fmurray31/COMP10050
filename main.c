@@ -52,7 +52,7 @@ int main() {
                     break;
 
                 case 5: //User deletes their account
-                    deleteUser (&twitter_system.userlist[i], &twitter_system);
+                   // deleteUser (&twitter_system.userlist[i], &twitter_system);
                     break;
 
                 case 6: // User chooses to end their turn
