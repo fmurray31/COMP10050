@@ -3,10 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-int filledUsers; //no of total users filled in (for general use in loops)
-int tweetCount; //total number of tweets
-tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
-
 int main() {
 
     twitter twitter_system;
@@ -35,12 +31,12 @@ int main() {
 
             // Switch statement to work through different menu options
             switch (menuSelection) {
-                case 1: // Allows user to post a tweet
-                    postTweet(twitter_system.userlist[i].username);
+                case 1: // Allows user to post a tweet, stores in LIFO stack
+                    postTweet(&twitter_system.userlist[i], &twitter_system);
                     break;
 
                 case 2: // Prints news feed (currently prints out all tweets)
-                    tempTweetPrint();
+                    //tempTweetPrint();
                     break;
 
                 case 3: // User follows other users

@@ -2,34 +2,45 @@
 // Created by mynah on 11/04/22.
 //
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#ifndef twitter_func
+#ifndef twitter_create
 #include "twitter_create.h"
 #endif
 
-extern int filledUsers; //no of total users filled in (for general use in loops)
-extern int tweetCount; //total number of tweets
-extern tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
-// Function to request and store tweets from a user
-
-void postTweet (char *currentUser) {
-    tweetList[tweetCount].id = tweetCount;
-    printf("Write up to 270 characters for your tweet: \n");
-    fflush(stdin);
-    fgets(tweetList[tweetCount].msg, TWEET_LENGTH, stdin);
-    //scanf("%s", tweetList[tweetCount].msg);
-    strcpy(tweetList[tweetCount].user, currentUser);
-    tweetCount++;
-    printf("\n");
-}
-
-// Temp tweet print function
-void tempTweetPrint (void)
+//LIFO stack of tweets, mostrecenttwt is top of stack
+void postTweet(user *currentUser, twitter *twitter_system)
 {
-    // Iterates through every tweet, printing each one and the relevant user
-    for (int i=0; i<tweetCount; i++)
-    {
-        printf("%s \n", tweetList[i].user);
-        printf("%s \n\n", tweetList[i].msg);
+    tweet * mostrecent = twitter_system->mostrecenttwt;
+    tweet * newtweet = (tweet * ) malloc(sizeof(tweet)); //create node
+
+    if (newtweet != NULL)
+    {   //populate node
+        twitter_system->tweetcount++; //increment global tweet count by 1
+        newtweet->id = twitter_system->tweetcount;
+        strcpy(newtweet->user, currentUser->username);
+        newtweet->previoustwt = NULL; //currently pointing to nothing else
+        printf("Enter your tweet (max 270 characters): \n");
+        fflush(stdin);
+        fgets(newtweet->msg, TWEET_LENGTH, stdin);
+        //population done
+
+        if (mostrecent == NULL) //if there are no tweets
+        {   //make most recent tweet be the newly created tweet
+            twitter_system->mostrecenttwt = newtweet;
+        }
+
+        else //if there are preexisting tweets
+        {
+            newtweet->previoustwt = twitter_system->mostrecenttwt;
+            twitter_system->mostrecenttwt = newtweet;
+        }
+        printf("You have successfully posted your tweet!:\n");
+        printf("%s\n", twitter_system->mostrecenttwt->msg); //error checking
+        printf("There are currently %d tweets.\n\n", twitter_system->tweetcount); //error checking
     }
+
+    else //if malloc fails
+    { printf("There was an issue with making space for your tweet. Please try again.\n"); }
 }
+

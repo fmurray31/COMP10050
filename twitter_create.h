@@ -29,6 +29,7 @@ typedef struct tweet
     int id;
     char msg[TWEET_LENGTH];
     char user[USR_LENGTH];
+    struct tweet *previoustwt;
 
 }tweet;
 
@@ -52,7 +53,8 @@ typedef struct twitter
 {
     int filledusers; //number of users filled in
     user userlist[MAX_USERS]; //array of structs containing users
-    tweet tweetname[MAX_TWEETS]; //start pointer to linked list of all tweets
+    tweet * mostrecenttwt; //start pointer to linked list of all tweets
+    int tweetcount; //no. of tweets, used for tweet id.
 }twitter;
 
 //POINTER TO A DATA TYPE OF STRUCT TWITTER
@@ -66,11 +68,8 @@ void create_twitter_system(twitter * twitter_system);
 // Helper function to print all users
 void printUsers (twitter * twitter_system);
 
-// Function to request and store tweets from the user
-void postTweet (char *currentUser);
-
-// Temporary function to print out all tweets
-void tempTweetPrint (void);
+// Function to let user tweet and store tweet in LIFO stack
+void postTweet(user *currentUser, twitter *twitter_system);
 
 //Function to let a user follow other users
 void followUser (userPtr currentUser, twitterPtr twitter_system);

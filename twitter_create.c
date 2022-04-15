@@ -43,6 +43,7 @@ void create_twitter_system(twitter *twitter_system)
 
     twitter_system->filledusers = i; //store number of users in struct
     twitter_system->filledusers = i; //store number of users in global variable (for general use in main)
+    twitter_system->tweetcount = 0;
 }
 
 //Whole userlist print function
