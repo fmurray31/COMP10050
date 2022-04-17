@@ -3,25 +3,50 @@
 //
 #include <stdio.h>
 #include <string.h>
-#ifndef twitter_func
+#include <stdlib.h>
 #include "twitter_create.h"
-#endif
 
 extern int filledUsers; //no of total users filled in (for general use in loops)
 extern int tweetCount; //total number of tweets
 extern tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
 // Function to request and store tweets from a user
 
-void postTweet (char *currentUser) {
-    tweetList[tweetCount].id = tweetCount;
-    printf("Write up to 270 characters for your tweet: \n");
-    fflush(stdin);
-    fgets(tweetList[tweetCount].msg, TWEET_LENGTH, stdin);
-    //scanf("%s", tweetList[tweetCount].msg);
-    strcpy(tweetList[tweetCount].user, currentUser);
-    tweetCount++;
-    printf("\n");
+//LIFO stack of tweets, mostrecenttwt is top of stack
+void postTweet(user *currentUser, twitter *twitter_system)
+{
+    tweet * mostrecent = twitter_system->mostrecenttwt;
+    tweet * newtweet = (tweet * ) malloc(sizeof(tweet)); //create node
+
+    if (newtweet != NULL)
+    {   //populate node
+        twitter_system->tweetcount++; //increment global tweet count by 1
+        newtweet->id = twitter_system->tweetcount;
+        strcpy(newtweet->user, currentUser->username);
+        newtweet->previoustwt = NULL; //currently pointing to nothing else
+        printf("Enter your tweet (max 270 characters): \n");
+        fflush(stdin);
+        fgets(newtweet->msg, TWEET_LENGTH, stdin);
+        //population done
+
+        if (mostrecent == NULL) //if there are no tweets
+        {   //make most recent tweet be the newly created tweet
+            twitter_system->mostrecenttwt = newtweet;
+        }
+
+        else //if there are preexisting tweets
+        {
+            newtweet->previoustwt = twitter_system->mostrecenttwt;
+            twitter_system->mostrecenttwt = newtweet;
+        }
+        printf("You have successfully posted your tweet!:\n");
+        printf("%s\n", twitter_system->mostrecenttwt->msg); //error checking
+        printf("There are currently %d tweets.\n\n", twitter_system->tweetcount); //error checking
+    }
+
+    else //if malloc fails
+    { printf("There was an issue with making space for your tweet. Please try again.\n"); }
 }
+
 
 // Temp tweet print function
 void tempTweetPrint (void)
@@ -34,8 +59,42 @@ void tempTweetPrint (void)
     }
 }
 
-// News feed function
+// News feed function, prints the 10 most recent tweets from the current user and any users they re following
 void newsFeed (user *currentUser, twitter *twitter_system)
 {
+    int found10 = 0; // Variable to check whether 10 valid tweets have been found
+    int j;
 
-}
+    // Pointer to the beginning of the list of tweets
+    tweet *tweetPtr = twitter_system->mostrecenttwt;
+
+    // Loops through the list of tweets until either 10 tweets have been found or the end of the list is reached
+    while (tweetPtr != NULL && found10 < 10)
+    {
+        // Checks the author of the current tweet against the current user
+        if (strcmp(tweetPtr->user, currentUser->username) == 0)
+        {
+            // If there is a match, increments the counter of printed tweets and prints the username and contents of the current tweet
+            found10++;
+            printf("%s \n", tweetPtr->user);
+            printf("%s \n\n", tweetPtr->msg);
+        }
+
+        // If the current tweet was not written by the current user, this loop checks to see if it was written by any of the users
+        // the current user follows
+        else {
+            for (j = 0; j < currentUser->num_following; j++) {
+                // Checks each user the current user is following against the current user
+                if (strcmp(currentUser->following[j], tweetPtr->user) == 0) {
+                    // If there is a match, increments the counter of printed tweets and prints the username and contents of the current tweet
+                    found10++;
+                    printf("%s \n", tweetPtr->user);
+                    printf("%s \n\n", tweetPtr->msg);
+                }
+            }
+        }
+        // Increments the tweet pointer to the next most recent tweet
+        tweetPtr = tweetPtr->previoustwt;
+    } // End while loop
+    printf("End of function reached \n");
+} // End newsFeed function
