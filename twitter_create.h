@@ -30,7 +30,6 @@ typedef struct tweet
     char msg[TWEET_LENGTH];
     char user[USR_LENGTH];
     struct tweet *previoustwt;
-
 }tweet;
 
 // USER STRUCT TYPE: username, list and number of followers, list and number of following, pointer to next user
@@ -71,6 +70,9 @@ void printUsers (twitter * twitter_system);
 // Function to let user tweet and store tweet in LIFO stack
 void postTweet(user *currentUser, twitter *twitter_system);
 
+// Temporary function to print out all tweets
+void tempTweetPrint (void);
+
 //Function to let a user follow other users
 void followUser (userPtr currentUser, twitterPtr twitter_system);
 
@@ -79,6 +81,9 @@ void unfollowUser (user *currentUser, twitter *twitter_system);
 
 // Function to delete user, including deleting old tweets and removing them from follower lists
 void deleteUser (user *currentUser, twitter *twitter_system);
+
+// Function to print the news feed, the last 10 tweets from the current user and any followed users
+void newsFeed (user *currentUser, twitter *twitter_system);
 
 // void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
 // void printUsers(userPtr currentUserPtr);

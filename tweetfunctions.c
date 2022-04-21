@@ -2,11 +2,14 @@
 // Created by mynah on 11/04/22.
 //
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#ifndef twitter_create
+#include <stdlib.h>
 #include "twitter_create.h"
-#endif
+
+extern int filledUsers; //no of total users filled in (for general use in loops)
+extern int tweetCount; //total number of tweets
+extern tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
+// Function to request and store tweets from a user
 
 //LIFO stack of tweets, mostrecenttwt is top of stack
 void postTweet(user *currentUser, twitter *twitter_system)
@@ -44,3 +47,54 @@ void postTweet(user *currentUser, twitter *twitter_system)
     { printf("There was an issue with making space for your tweet. Please try again.\n"); }
 }
 
+
+// Temp tweet print function
+void tempTweetPrint (void)
+{
+    // Iterates through every tweet, printing each one and the relevant user
+    for (int i=0; i<tweetCount; i++)
+    {
+        printf("%s \n", tweetList[i].user);
+        printf("%s \n\n", tweetList[i].msg);
+    }
+}
+
+// News feed function, prints the 10 most recent tweets from the current user and any users they re following
+void newsFeed (user *currentUser, twitter *twitter_system)
+{
+    int found10 = 0; // Variable to check whether 10 valid tweets have been found
+    int j;
+
+    // Pointer to the beginning of the list of tweets
+    tweet *tweetPtr = twitter_system->mostrecenttwt;
+
+    // Loops through the list of tweets until either 10 tweets have been found or the end of the list is reached
+    while (tweetPtr != NULL && found10 < 10)
+    {
+        // Checks the author of the current tweet against the current user
+        if (strcmp(tweetPtr->user, currentUser->username) == 0)
+        {
+            // If there is a match, increments the counter of printed tweets and prints the username and contents of the current tweet
+            found10++;
+            printf("%s \n", tweetPtr->user);
+            printf("%s \n\n", tweetPtr->msg);
+        }
+
+        // If the current tweet was not written by the current user, this loop checks to see if it was written by any of the users
+        // the current user follows
+        else {
+            for (j = 0; j < currentUser->num_following; j++) {
+                // Checks each user the current user is following against the current user
+                if (strcmp(currentUser->following[j], tweetPtr->user) == 0) {
+                    // If there is a match, increments the counter of printed tweets and prints the username and contents of the current tweet
+                    found10++;
+                    printf("%s \n", tweetPtr->user);
+                    printf("%s \n\n", tweetPtr->msg);
+                }
+            }
+        }
+        // Increments the tweet pointer to the next most recent tweet
+        tweetPtr = tweetPtr->previoustwt;
+    } // End while loop
+    printf("End of function reached \n");
+} // End newsFeed function

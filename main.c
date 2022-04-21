@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include "twitter_create.h"
-#include <string.h>
 #include <stdlib.h>
+
+
+int tweetCount; //total number of tweets
+tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
 
 int main() {
 
@@ -15,6 +18,7 @@ int main() {
         // Variable to check whether a user has passed
         int userPass = 0;
 
+        // Prints current user
         printf("\nCurrent user is: %s\n\n", twitter_system.userlist[i].username);
 
         // Loop runs until the user passes their turn to the next user, or the program is ended
@@ -26,17 +30,19 @@ int main() {
 
             // Variable for storing the users input on the menu selection
             int menuSelection;
+
+            // Requesting user input
             // fgets(&menuSelection, 2, stdin);
             scanf("%d", &menuSelection);
 
             // Switch statement to work through different menu options
             switch (menuSelection) {
-                case 1: // Allows user to post a tweet, stores in LIFO stack
+                case 1: // Allows user to post a tweet
                     postTweet(&twitter_system.userlist[i], &twitter_system);
                     break;
 
                 case 2: // Prints news feed (currently prints out all tweets)
-                    //tempTweetPrint();
+                    newsFeed (&twitter_system.userlist[i], &twitter_system);
                     break;
 
                 case 3: // User follows other users
@@ -48,7 +54,9 @@ int main() {
                     break;
 
                 case 5: //User deletes their account
-                   // deleteUser (&twitter_system.userlist[i], &twitter_system);
+                    deleteUser (&twitter_system.userlist[i], &twitter_system);
+                    userPass = 1;
+                    printf("Account deleted, passing to next user");
                     break;
 
                 case 6: // User chooses to end their turn
@@ -65,4 +73,4 @@ int main() {
             }
         }
     }
-}
+} // End main loop
