@@ -162,16 +162,13 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
 void deleteUser (user *currentUser, twitter *twitter_system) {
     int i, j, k;
 
-    puts("Entering delete loop");
     // Deleting currentUser from all other user's following lists
     for (i = 0; i < twitter_system->filledusers; i++) // Iterate through all users
     {
-        printf("loop num:%d\n", i);
-        for (j = 0; j < currentUser->num_following; j++) // Iterate through user followers
+        for (j = 0; j < twitter_system->userlist[i].num_following; j++) // Iterate through user followers
         {
             // Checks name of user to be deleted against each user's following lists
             if (strcmp(currentUser->username, twitter_system->userlist[i].following[j]) == 0) {
-                printf("Following match found \n");
                 // If a match is found, moves the deleted user to the end of the following array
                 for (k = j; k < twitter_system->userlist[i].num_following; k++) {
                     twitter_system->userlist[i].following[k] = twitter_system->userlist[i].following[k + 1];
@@ -184,12 +181,10 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
         }
     } // End loop through users for following users
 
-    printf("Ended following loop \n");
 
     // Deleting currentUser from all other user's followed lists
     for (i = 0; i < twitter_system->filledusers; i++) // Iterate through all users
     {
-        printf("Follower loop num %d \n", i);
         for (j = 0; j < currentUser->num_followers; j++) // Iterate through user followers
         {
             // Checks name of user to be deleted against each user's follower lists
@@ -207,35 +202,25 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
         }
     }
 
-
-    printf("Finished follower loop \n");
-
     // Pointer to the first entry in the list of tweets
     tweet *tweetPtr = twitter_system->mostrecenttwt;
     tweet *prevTweetPtr = NULL;
 
-    printf("Beginning tweet deletion \n");
     while (tweetPtr != NULL)
     {
-        printf("Entered tweet deletion loop \n");
         if (strcmp(tweetPtr->user, currentUser->username) == 0)
         {
-            printf("setting temp\n");
             tweet *temp = tweetPtr;
-            printf("incrementing ptr\n");
             tweetPtr = tweetPtr->previoustwt;
-            printf("free temp\n");
             free (temp);
             --twitter_system->tweetcount;
-            prevTweetPtr->previoustwt = tweetPtr;
+            if (prevTweetPtr != NULL) prevTweetPtr->previoustwt = tweetPtr;
         }
 
-        printf("Incrementing tweetPtr\n");
         prevTweetPtr = tweetPtr;
-        tweetPtr = tweetPtr->previoustwt;
+        if (tweetPtr != NULL) tweetPtr = tweetPtr->previoustwt;
     }
 
-    printf("Finished tweet deletion \n");
 
     // Deleting currentUser from the list of users
     for (i=0; i<twitter_system->filledusers; i++)
@@ -246,7 +231,7 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
             // Moves deleted user to the end of the array of users
             for (j=i; j<twitter_system->filledusers; j++)
             {
-                twitter_system->userlist[i] = twitter_system->userlist[i+1];
+                twitter_system->userlist[j] = twitter_system->userlist[j+1];
             }
 
             user *deletedUser = &twitter_system->userlist[j];
@@ -255,11 +240,11 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
 
             twitter_system->userlist[j].nextUserPtr = NULL;
 
-            free (deletedUser);
+
+            //free (deletedUser);
 
             --twitter_system->filledusers; // Decrements filledusers
         }
 
     } // End loop through users for following lists
-    printf("Finished deleting user struct \n");
 } // End deleteUser function

@@ -56,6 +56,7 @@ int main() {
                 case 5: //User deletes their account
                     deleteUser (&twitter_system.userlist[i], &twitter_system);
                     userPass = 1;
+                    i--;
                     printf("Account deleted, passing to next user");
                     break;
 

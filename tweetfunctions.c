@@ -89,12 +89,11 @@ void newsFeed (user *currentUser, twitter *twitter_system)
                     // If there is a match, increments the counter of printed tweets and prints the username and contents of the current tweet
                     found10++;
                     printf("%s \n", tweetPtr->user);
-                    printf("%s \n\n", tweetPtr->msg);
+                    printf("%s \n", tweetPtr->msg);
                 }
             }
         }
         // Increments the tweet pointer to the next most recent tweet
         tweetPtr = tweetPtr->previoustwt;
     } // End while loop
-    printf("End of function reached \n");
 } // End newsFeed function
