@@ -30,11 +30,20 @@ void followUser (user *currentUser, twitter *twitter_system)
             // check if you already follow the user or are trying to follow yourself
             int m = 0;
             int alreadyfollow = 0;
-            while ( m < currentUser->num_following && alreadyfollow == 0)
-            {   // if you find the user you are trying to follow in your following list or are trying to follow yourself
-                if ( strcmp(currentUser->following[m], followname) == 0 || strcmp(currentUser->username, followname) == 0 )
+
+            // if you are trying to follow yourself
+            if ( strcmp(currentUser->username, followname) == 0 )
+            {
+                printf("You cannot follow yourself.\n");
+                alreadyfollow = 1; // switch bool
+            }
+
+            // if you find the user you are trying to follow in your following list
+            while ( alreadyfollow == 0 && m < currentUser->num_following )
+            {
+                if ( strcmp(currentUser->following[m], followname) == 0 )
                 {
-                    printf("You are either trying to follow yourself or already follow this user.\n");
+                    printf("You already follow this user. You cannot follow them again.\n");
                     alreadyfollow = 1; // switch bool
                 }
                 m++; // increment through current user's following list
@@ -43,7 +52,7 @@ void followUser (user *currentUser, twitter *twitter_system)
             // now check if the given user exists, given that you don't already follow them
             int i = 0;
             int found = 0; // bool to see if there is a matching user in userlist
-            while (i < twitter_system->filledusers && alreadyfollow == 0 && found == 0) // iterate through all existing users
+            while (alreadyfollow == 0 && found == 0 && i < twitter_system->filledusers ) // iterate through all existing users
             {
                 // if you find a username in the userlist that matches input
                 if ( strcmp(twitter_system->userlist[i].username, followname) == 0 )
