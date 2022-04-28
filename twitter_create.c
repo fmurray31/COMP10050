@@ -2,8 +2,6 @@
 // Contains function to create twitter system and generate users.
 // Also contains a helper function to print out existing user list.
 
-#include <stdio.h>
-#include <string.h>
 #ifndef twitter_create
 #include "twitter_create.h"
 #endif

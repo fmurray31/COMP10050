@@ -2,10 +2,9 @@
 // Main file calls create_twitter_system function, generates users
 // Then executes a switch in a while loops for user choice for various functionalities.
 
-#include <stdio.h>
+#ifndef twitter_create
 #include "twitter_create.h"
-#include <stdlib.h>
-
+#endif
 
 int tweetCount; //total number of tweets
 tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets

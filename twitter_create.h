@@ -6,6 +6,11 @@
 
 #endif //ASSIGNMENT2_TWITTER_CREATE_H
 
+// LIBRARIES TO BE INCLUDED:
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
 //DEFINITIONS HERE:
 
 #define TWEET_LENGTH 270 //Max length of a tweet

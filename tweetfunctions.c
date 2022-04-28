@@ -3,10 +3,9 @@
 // postTweet: Allows a user to post a tweet and store it in a stack of tweets.
 // newsFeed: Allows a user to get 10 most recent tweets of their own and those they follow.
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#ifndef twitter_create
 #include "twitter_create.h"
+#endif
 
 extern int filledUsers; //no of total users filled in (for general use in loops)
 extern int tweetCount; //total number of tweets
