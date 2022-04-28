@@ -64,9 +64,8 @@ void newsFeed (user *currentUser, twitter *twitter_system)
             // If there is a match, increments the counter of printed tweets and prints the username and contents of the current tweet
             found10++;
             printf("%d: ", found10);
-            printf("%s", tweetPtr->user);
-            printf("%s", "\n");
-            printf("%s", tweetPtr->msg);
+            printf("%s has tweeted:\n", tweetPtr->user);
+            printf("%s\n", tweetPtr->msg);
         }
 
         // If the current tweet was not written by the current user, this loop checks to see if it was written by any of the users
@@ -77,8 +76,9 @@ void newsFeed (user *currentUser, twitter *twitter_system)
                 if (strcmp(currentUser->following[j], tweetPtr->user) == 0) {
                     // If there is a match, increments the counter of printed tweets and prints the username and contents of the current tweet
                     found10++;
-                    printf("%s \n", tweetPtr->user);
-                    printf("%s \n", tweetPtr->msg);
+                    printf("%d: ", found10);
+                    printf("%s has tweeted:\n", tweetPtr->user);
+                    printf("%s\n", tweetPtr->msg);
                 }
             }
         }

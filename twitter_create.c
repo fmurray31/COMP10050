@@ -39,7 +39,10 @@ void create_twitter_system(twitter *twitter_system)
         }
 
         else // if user puts in the phrase "exit"
-        { break; }
+        {
+            twitter_system->userlist[i] = twitter_system->userlist[i+1];
+            break;
+        }
     }
 
     // other initialisers
