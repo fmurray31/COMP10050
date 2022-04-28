@@ -13,8 +13,9 @@ int main() {
 
     twitter twitter_system;
 
+    printf("\nWelcome to Twitter! Please make a series of users within this current system.\n");
     create_twitter_system(&twitter_system);    // Function call, creates the twitter system and adds users
-    printf("%s", "\n");
+    printf("\nThe list of users now is: \n");
     printUsers(&twitter_system);     // Function call, prints out all users created
 
     // Menu of functions, loops through all users
@@ -78,6 +79,7 @@ int main() {
 
                 default: // Informs the user of invalid input
                     printf("Invalid input\n");
+                    fflush(stdin);
             }
         }
     }
