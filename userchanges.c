@@ -65,6 +65,9 @@ void followUser (user *currentUser, twitter *twitter_system)
 
             if (alreadyfollow == 0 && found == 0) // if given username is not found in the whole userlist
             { printf("This user doesn't exist. Please try again.\n"); }
+
+            else
+            { printf("You have successfully followed user %s.\n\n", followname); }
         } //end user choice 1
 
         else if (userChoice == 2) // user wants to print out whole user list
@@ -148,6 +151,9 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
 
             if (found == 0) //if user doesnt exist in following list
             { printf("You are not currently following this user. You are unable to unfollow them.\n"); }
+
+            else
+            { printf("You have successfully unfollowed user %s.\n\n", unfollowname); }
         } //end user choice 1
 
         else if (userChoice == 2) //if user wants to print their following list
