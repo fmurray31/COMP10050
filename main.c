@@ -15,6 +15,7 @@ int main() {
 
     printf("\nWelcome to Twitter! Please make a series of users within this current system.\n");
     create_twitter_system(&twitter_system);    // Function call, creates the twitter system and adds users
+    printf("\n-------------------------------------\n");
 
     // Menu of functions, loops through all users
     for (int i = 0; i < twitter_system.filledusers; i++) {
