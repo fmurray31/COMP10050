@@ -66,7 +66,7 @@ void followUser (user *currentUser, twitter *twitter_system)
             if (alreadyfollow == 0 && found == 0) // if given username is not found in the whole userlist
             { printf("This user doesn't exist. Please try again.\n"); }
 
-            else
+            else if (alreadyfollow == 0 && found == 1)
             { printf("You have successfully followed user %s.\n\n", followname); }
         } //end user choice 1
 
