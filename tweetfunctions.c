@@ -87,5 +87,5 @@ void newsFeed (user *currentUser, twitter *twitter_system)
         tweetPtr = tweetPtr->previoustwt;
     } // End while loop
 
-    if (found10 == 0) printf("%s \n", "No relevant tweets found");
+    if (found10 == 0) printf("%s\n", "No relevant tweets found");
 } // End newsFeed function
