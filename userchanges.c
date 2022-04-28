@@ -204,22 +204,33 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
 
     // Pointer to the first entry in the list of tweets
     tweet *tweetPtr = twitter_system->mostrecenttwt;
+    // Pointer to represent the previous tweet
     tweet *prevTweetPtr = NULL;
 
+    // Searches until the end of the list is reached
     while (tweetPtr != NULL)
     {
+        // Checks if the current tweet was written by the deleted user
         if (strcmp(tweetPtr->user, currentUser->username) == 0)
         {
+            // Establishing a temporary pointer to the tweet to be deleted
             tweet *temp = tweetPtr;
+            // Incrementing the tweet pointer
             tweetPtr = tweetPtr->previoustwt;
+            // Freeing the deleted tweet
             free (temp);
+            // Decrementing the tweetcount
             --twitter_system->tweetcount;
+            // Checking
             if (prevTweetPtr != NULL) prevTweetPtr->previoustwt = tweetPtr;
         }
 
-        prevTweetPtr = tweetPtr;
-        if (tweetPtr != NULL) tweetPtr = tweetPtr->previoustwt;
-    }
+        else {
+            prevTweetPtr = tweetPtr;
+            tweetPtr = tweetPtr->previoustwt;
+        }
+        //if (tweetPtr != NULL) tweetPtr = tweetPtr->previoustwt;
+    } // End of tweet deletion loop
 
 
     // Deleting currentUser from the list of users
@@ -236,8 +247,10 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
 
             user *deletedUser = &twitter_system->userlist[j];
 
+            // Fixes the nextUserPtr to point to the correct user
             twitter_system->userlist[j-1].nextUserPtr = twitter_system->userlist[j].nextUserPtr;
 
+            // Sets the nextUserPtr of the deleted user to NULL
             twitter_system->userlist[j].nextUserPtr = NULL;
 
 

@@ -56,7 +56,7 @@ int main() {
                 case 5: //User deletes their account
                     deleteUser (&twitter_system.userlist[i], &twitter_system);
                     userPass = 1;
-                    i--;
+                    i--; // Decrementing variable representing the current user to prevent a user being skipped
                     printf("Account deleted, passing to next user");
                     break;
 
