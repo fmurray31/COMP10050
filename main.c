@@ -30,8 +30,8 @@ int main() {
 
             // Requesting user input from a selection of options
             printf("Enter 1 to write a tweet, 2 to get your news feed, 3 to follow a user, \n"
-                   "4 to unfollow a user, 5 to delete your account, 6 to end your turn or \n"
-                   "7 to end the program: \n");
+                   "4 to unfollow a user, 5 to delete your account, 6 to end your turn, 7 to print \n"
+                   "all user or 8 to end the program: \n");
 
             // Variable for storing the users input on the menu selection
             char menuSelection;
@@ -72,13 +72,17 @@ int main() {
                     printf("Turn ended \n");
                     break;
 
-                case '7': // Ends the program
+                case '7': // Prints all users
+                    printf("\nThe list of users now is: \n");
+                    printUsers(&twitter_system);
+                    break;
+
+                case '8': // Ends the program
                     printf("Ending program");
                     exit(0);
 
                 default: // Informs the user of invalid input
                     printf("Invalid input\n");
-                    fflush(stdin);
             }
         }
     }
