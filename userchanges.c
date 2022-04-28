@@ -1,12 +1,12 @@
-//
-// Created by mynah on 11/04/22.
-// file for follow users / unfollow users / delete users
+// Created by Mynah Bhattacharyya and Fionn Murray. COMP 10050 Assignment 2.
+// Contains function definitions for functions that change the user list somehow.
+// Contains followUser, unfollowUser.
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#ifndef twitter_create
 #include "twitter_create.h"
+#endif
 
+// function to follow some other existing user
 void followUser (user *currentUser, twitter *twitter_system)
 {
     int userChoice;
@@ -17,59 +17,75 @@ void followUser (user *currentUser, twitter *twitter_system)
 
     while (userChoice == 1 || userChoice == 2)
     {
-        if (userChoice == 1) //follow someone choice
+        if (userChoice == 1) // user chooses to follow someone
         {
             printf("Enter the name of the user you would like to follow: \n");
-            fscanf(stdin, "%s", followname); //user input for name of person they want to follow
+            fscanf(stdin, "%s", followname); // user input for name of person they want to follow
 
-            //error handling for adding string null terminator
+            // error handling for adding string null terminator
             if ( followname[strlen(followname)-1] == '\n')
             { followname[strlen(followname)-1] = '\0'; }
 
+            // check if you already follow the user or are trying to follow yourself
+            int m = 0;
+            int alreadyfollow = 0;
+            while ( m < currentUser->num_following && alreadyfollow == 0)
+            {   // if you find the user you are trying to follow in your following list or are trying to follow yourself
+                if ( strcmp(currentUser->following[m], followname) == 0 || strcmp(currentUser->username, followname) == 0 )
+                {
+                    printf("You are either trying to follow yourself or already follow this user.\n");
+                    alreadyfollow = 1; // switch bool
+                }
+                m++; // increment through current user's following list
+            }
+
+            // now check if the given user exists, given that you dont already follow them
             int i = 0;
-            int found = 0; //bool to see if there is a matching user in userlist
-            while (i < twitter_system->filledusers && found == 0)//iterate through all existing users
+            int found = 0; // bool to see if there is a matching user in userlist
+            while (i < twitter_system->filledusers && alreadyfollow == 0 && found == 0) // iterate through all existing users
             {
-                //if you find a username in the userlist that matches input
+                // if you find a username in the userlist that matches input
                 if ( strcmp(twitter_system->userlist[i].username, followname) == 0 )
                 {
-                    //store matching name in string array of following, at location indexed by number of followers
+                    // store matching name in string array of following, at location indexed by number of followers
                     int location1 = currentUser->num_following;
                     currentUser->following[location1] = twitter_system->userlist[i].username;
                     currentUser->num_following++; //increment their following count (useful to place next follower into follower array)
 
-                    //error checking
+                    // error checking printf's
                     printf("Your following count is now: %d.\n", currentUser->num_following);
                     printf("You now follow: ");
                     printf("%s\n", currentUser->following[location1] );
 
-                    //implement having the other person's follower count and follower list increase
+                    // implement having the other person's follower count and follower list increase
                     int location2 = twitter_system->userlist[i].num_followers; //initially 0
                     twitter_system->userlist[i].followers[location2] = currentUser->username;
                     twitter_system->userlist[i].num_followers++; //increment follower count
 
-                    //error checking
+                    // error checking printf's
                     printf("Your follower count is now: %d.\n", twitter_system->userlist[i].num_followers);
                     printf("You are now followed by: ");
                     printf("%s\n", twitter_system->userlist[i].followers[location2]);
 
-                    found = 1; //switch bool to jump out of while loop
+                    found = 1; // switch bool to jump out of while loop
                 }
-                i++; //increment while loop to next in userlist
-            }
-            if (found == 0) //if person is not found in userlist
-            { printf("This user doesn't exist.\n"); }
+                i++; // increment while loop to next user in userlist to be checked
+            } // exit while loop to check users
+
+            if (alreadyfollow == 0 && found == 0) // if given username is not found in the whole userlist
+            { printf("This user doesn't exist. Please try again.\n"); }
         } //end user choice 1
 
-        else if (userChoice == 2) //print users choice
-        { printUsers(twitter_system); }
+        else if (userChoice == 2) // user wants to print out whole user list
+        { printUsers(twitter_system); } // call helper function
 
-        //next round of choices for follow or exit
+        // next round of choices in while loop for follow or exit
         printf("Enter 1 to follow a specific user, 2 for the list of users, or any other number to exit.\n");
         scanf("%d", &userChoice);
     }
-}
+} //end followUser function
 
+// function to unfollow some other existing user in your following list
 void unfollowUser (user *currentUser, twitter *twitter_system)
 {
     int userChoice;
@@ -80,61 +96,62 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
 
     while (userChoice == 1 || userChoice == 2)
     {
-        if (userChoice == 1) //if user wants to unfollow someone
+        if (userChoice == 1) // user chooses to unfollow someone
         {
             printf("Enter the name of the user you would like to unfollow: \n");
-            fscanf(stdin, "%s", unfollowname); //user input for name of person they want to follow
+            fscanf(stdin, "%s", unfollowname); // user input for name of person they want to follow
 
-            //error handling for adding string null terminator
+            // error handling for adding string null terminator
             if ( unfollowname[strlen(unfollowname)-1] == '\n')
             { unfollowname[strlen(unfollowname)-1] = '\0'; }
 
+            // now check if the given user exists in the current user's following list
             int i = 0;
-            int found = 0; //bool to see if there is a matching user in your following list
-            int numfollowing = currentUser->num_following; //no. of users in the following list
+            int found = 0; // bool to see if there is a matching user in your following list
+            int numfollowing = currentUser->num_following; // no. of users in the following list
 
-            while (i < numfollowing && found == 0)//iterate through whole following list
+            while (i < numfollowing && found == 0) // iterate through whole following list
             {
-                if ( strcmp(currentUser->following[i], unfollowname) == 0 ) //if a matching user is found in following list
+                if ( strcmp(currentUser->following[i], unfollowname) == 0 ) // if a matching user is found in following list
                 {
                     int j = i;
-                    printf("Found in following list: %s, at position: %d\n\n", currentUser->following[i], i); //error checking
-                    while ( (j < numfollowing) && (currentUser->following[j] != NULL) ) //starting from place we found user to be unfollowed
+                    printf("Found in following list: %s, at position: %d\n\n", currentUser->following[i], i); // error checking
+                    while ( (j < numfollowing) && (currentUser->following[j] != NULL) ) // starting from place we found user to be unfollowed
                     {
-                        currentUser->following[j] =  currentUser->following[j+1]; //make string pointer point to next user
-                        printf("Current user is now: %s\n", currentUser->following[j]); //error checking
+                        currentUser->following[j] =  currentUser->following[j+1]; // make string pointer point to next user
+                        printf("Current user is now: %s\n", currentUser->following[j]); // error checking
                         j++;
                     }
-                    currentUser->following[j] = NULL; //place an empty in the last location after carry-overs of following done
-                    currentUser->num_following--; //decrement number of following
+                    currentUser->following[j] = NULL; // place an empty in the last location after carry-overs of following done
+                    currentUser->num_following--; // decrement number of following
                     printf("Current no of following is: %d\n", currentUser->num_following);
 
-                    //implement having the other person's follower count and follower list decrease
+                    // implement having the other person's follower count and follower list decrease
                     int k = 0;
-                    int found2 = 0; //bool to find user in twitter list of users
-                    while (k < twitter_system->filledusers && found2 == 0) //iterate through twitter list
+                    int found2 = 0; // bool to find user in twitter list of users
+                    while (k < twitter_system->filledusers && found2 == 0) // iterate through twitter list of users
                     {
-                        if ( strcmp(twitter_system->userlist[k].username, unfollowname) == 0 ) //if unfollowed user found
+                        if ( strcmp(twitter_system->userlist[k].username, unfollowname) == 0 ) // if unfollowed user found
                         {
                             int l = 0;
-                            int numfollowers = twitter_system->userlist[k].num_followers;
-
-                            while ((l < numfollowers) &&  (twitter_system->userlist[k].followers[l] != NULL) ) //iterate through unfollowed user's followers list
+                            int numfollowers = twitter_system->userlist[k].num_followers; // no. of followers of unfollowed user
+                            //iterate through unfollowed user's followers list
+                            while ((l < numfollowers) &&  (twitter_system->userlist[k].followers[l] != NULL) )
                             {   //if current user's name is found
-                                twitter_system->userlist[k].followers[l] = twitter_system->userlist[k].followers[l+1];
-                                l++;
+                                twitter_system->userlist[k].followers[l] = twitter_system->userlist[k].followers[l+1]; // overwrite their name
+                                l++; // do this for rest of array
                             }
-                            twitter_system->userlist[k].followers[l] = NULL;
-                            twitter_system->userlist[k].num_followers--; //decrement unfollowed user's follower count
-                            printf("Current no of followers is: %d\n", twitter_system->userlist[k].num_followers);
-                            found2 = 1; //current user found
+                            twitter_system->userlist[k].followers[l] = NULL; // at the last position of follower list, overwrite extra
+                            twitter_system->userlist[k].num_followers--; // decrement unfollowed user's follower count
+                            printf("Current no of followers is: %d\n", twitter_system->userlist[k].num_followers); // error checking
+                            found2 = 1; // bool switch, jump out of inner while loop
                         }
-                        k++; //increment through twitter userlist
+                        k++; // increment inner while loop to next in twitter userlist
                     }
 
-                    found = 1; //switch bool to jump out of main unfollow while loop
+                    found = 1; // bool switch, jump out of outer unfollow while loop
                 }
-                i++; //increment while loop to next in userlist
+                i++; //increment outer while loop to next in userlist
             }
 
             if (found == 0) //if user doesnt exist in following list
@@ -154,110 +171,4 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
         printf("Enter 1 to unfollow a specific user, 2 for the list of your followers, or any other number to exit: \n");
         scanf("%d", &userChoice);
     } //end while loop
-
 } //end unfollow funct
-
-
-// Function to delete a user, remove them from all follower/following lists, and delete all the user's tweets
-void deleteUser (user *currentUser, twitter *twitter_system) {
-    int i, j, k;
-
-    // Deleting currentUser from all other user's following lists
-    for (i = 0; i < twitter_system->filledusers; i++) // Iterate through all users
-    {
-        for (j = 0; j < twitter_system->userlist[i].num_following; j++) // Iterate through user followers
-        {
-            // Checks name of user to be deleted against each user's following lists
-            if (strcmp(currentUser->username, twitter_system->userlist[i].following[j]) == 0) {
-                // If a match is found, moves the deleted user to the end of the following array
-                for (k = j; k < twitter_system->userlist[i].num_following; k++) {
-                    twitter_system->userlist[i].following[k] = twitter_system->userlist[i].following[k + 1];
-                }
-
-                twitter_system->userlist[i].following[k] = NULL; // Sets the pointer to the deleted username to NULL
-
-                --twitter_system->userlist[i].num_following; // Decrementing following count
-            }
-        }
-    } // End loop through users for following users
-
-
-    // Deleting currentUser from all other user's followed lists
-    for (i = 0; i < twitter_system->filledusers; i++) // Iterate through all users
-    {
-        for (j = 0; j < currentUser->num_followers; j++) // Iterate through user followers
-        {
-            // Checks name of user to be deleted against each user's follower lists
-            if (strcmp(currentUser->username, twitter_system->userlist[i].followers[j]) == 0) {
-
-                // If a match is found, moves the deleted user to the end of the following array
-                for (k = j; k < twitter_system->userlist[i].num_followers; k++) {
-                    twitter_system->userlist[i].followers[k] = twitter_system->userlist[i].followers[k + 1];
-                }
-
-                twitter_system->userlist[i].followers[k] = NULL; // Sets the pointer to the deleted username to NULL
-
-                --twitter_system->userlist[i].num_followers; // Decrementing followers count
-            }
-        }
-    }
-
-    // Pointer to the first entry in the list of tweets
-    tweet *tweetPtr = twitter_system->mostrecenttwt;
-    // Pointer to represent the previous tweet
-    tweet *prevTweetPtr = NULL;
-
-    // Searches until the end of the list is reached
-    while (tweetPtr != NULL)
-    {
-        // Checks if the current tweet was written by the deleted user
-        if (strcmp(tweetPtr->user, currentUser->username) == 0)
-        {
-            // Establishing a temporary pointer to the tweet to be deleted
-            tweet *temp = tweetPtr;
-            // Incrementing the tweet pointer
-            tweetPtr = tweetPtr->previoustwt;
-            // Freeing the deleted tweet
-            free (temp);
-            // Decrementing the tweetcount
-            --twitter_system->tweetcount;
-            // Checking
-            if (prevTweetPtr != NULL) prevTweetPtr->previoustwt = tweetPtr;
-        }
-
-        else {
-            prevTweetPtr = tweetPtr;
-            tweetPtr = tweetPtr->previoustwt;
-        }
-        //if (tweetPtr != NULL) tweetPtr = tweetPtr->previoustwt;
-    } // End of tweet deletion loop
-
-
-    // Deleting currentUser from the list of users
-    for (i=0; i<twitter_system->filledusers; i++)
-    {
-        // Searches for currentUser in the list of users
-        if (strcmp(currentUser->username, twitter_system->userlist[i].username) == 0)
-        {
-            // Moves deleted user to the end of the array of users
-            for (j=i; j<twitter_system->filledusers; j++)
-            {
-                twitter_system->userlist[j] = twitter_system->userlist[j+1];
-            }
-
-            user *deletedUser = &twitter_system->userlist[j];
-
-            // Fixes the nextUserPtr to point to the correct user
-            twitter_system->userlist[j-1].nextUserPtr = twitter_system->userlist[j].nextUserPtr;
-
-            // Sets the nextUserPtr of the deleted user to NULL
-            twitter_system->userlist[j].nextUserPtr = NULL;
-
-
-            //free (deletedUser);
-
-            --twitter_system->filledusers; // Decrements filledusers
-        }
-
-    } // End loop through users for following lists
-} // End deleteUser function

@@ -1,7 +1,10 @@
-#include <stdio.h>
-#include "twitter_create.h"
-#include <stdlib.h>
+// Created by Mynah Bhattacharyya and Fionn Murray. COMP 10050 Assignment 2.
+// Main file calls create_twitter_system function, generates users
+// Then executes a switch in a while loops for user choice for various functionalities.
 
+#ifndef twitter_create
+#include "twitter_create.h"
+#endif
 
 int tweetCount; //total number of tweets
 tweet tweetList[MAX_TWEETS]; //array of structs for storing tweets
@@ -32,7 +35,6 @@ int main() {
             int menuSelection;
 
             // Requesting user input
-            // fgets(&menuSelection, 2, stdin);
             scanf("%d", &menuSelection);
 
             // Switch statement to work through different menu options

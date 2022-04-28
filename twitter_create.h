@@ -1,11 +1,15 @@
-//
-// Created by Lili on 30/03/2022.
-//
+// Created by Mynah Bhattacharyya and Fionn Murray. COMP 10050 Assignment 2.
+// Variables provided by Liliana Pasquale.
 
 #ifndef ASSIGNMENT2_TWITTER_CREATE_H
 #define ASSIGNMENT2_TWITTER_CREATE_H
 
 #endif //ASSIGNMENT2_TWITTER_CREATE_H
+
+// LIBRARIES TO BE INCLUDED:
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 //DEFINITIONS HERE:
 
@@ -23,7 +27,7 @@
 
 // STRUCTS AND POINTER TYPES HERE:
 
-// TWEET STRUCT TYPE: id number, string with tweet, username of tweet author
+// TWEET STRUCT TYPE: ID number, string with tweet, username of tweet author
 typedef struct tweet
 {
     int id;
@@ -32,7 +36,7 @@ typedef struct tweet
     struct tweet *previoustwt;
 }tweet;
 
-// USER STRUCT TYPE: username, list and number of followers, list and number of following, pointer to next user
+// USER STRUCT TYPE: Username, list and number of followers, list and number of following, pointer to next user
 typedef struct user
 {
     char username[USR_LENGTH];
@@ -47,13 +51,12 @@ typedef struct user
 typedef user *userPtr;
 
 // TWITTER USER GENERATION STRUCT TYPE:
-// number of users, array of users,
 typedef struct twitter
 {
-    int filledusers; //number of users filled in
-    user userlist[MAX_USERS]; //array of structs containing users
-    tweet * mostrecenttwt; //start pointer to linked list of all tweets
-    int tweetcount; //no. of tweets, used for tweet id.
+    int filledusers; // Number of users filled in
+    user userlist[MAX_USERS]; // Array of structs containing users
+    tweet * mostrecenttwt; // Start pointer to linked list of all tweets
+    int tweetcount; // No. of tweets, used for tweet id.
 }twitter;
 
 //POINTER TO A DATA TYPE OF STRUCT TWITTER
@@ -67,28 +70,23 @@ void create_twitter_system(twitter * twitter_system);
 // Helper function to print all users
 void printUsers (twitter * twitter_system);
 
-// Function to let user tweet and store tweet in LIFO stack
-void postTweet(user *currentUser, twitter *twitter_system);
-
 // Temporary function to print out all tweets
 void tempTweetPrint (void);
 
-//Function to let a user follow other users
+// Function to let a user follow other users
 void followUser (userPtr currentUser, twitterPtr twitter_system);
 
-//Function to let a user unfollow other users
+// Function to let a user unfollow other users
 void unfollowUser (user *currentUser, twitter *twitter_system);
 
 // Function to delete user, including deleting old tweets and removing them from follower lists
 void deleteUser (user *currentUser, twitter *twitter_system);
 
+// Function to let user tweet and store tweet in LIFO stack
+void postTweet(user *currentUser, twitter *twitter_system);
+
 // Function to print the news feed, the last 10 tweets from the current user and any followed users
 void newsFeed (user *currentUser, twitter *twitter_system);
 
-// void createUser(userPtr *mainUserPtr, char name[USR_LENGTH]);
-// void printUsers(userPtr currentUserPtr);
-// int isEmpty(userPtr ptr);
 
-//GLOBAL VARIABLES HERE:
-
-
+// End of header

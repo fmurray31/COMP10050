@@ -1,12 +1,12 @@
-//
-// Created by Lili on 30/03/2022.
-//
+// Created by Mynah Bhattacharyya and Fionn Murray. COMP 10050 Assignment 2.
+// Contains function to create twitter system and generate users.
+// Also contains a helper function to print out existing user list.
 
-#include <stdio.h>
-#include <string.h>
 #ifndef twitter_create
 #include "twitter_create.h"
 #endif
+
+// Function to take input of usernames and generate users based on them
 void create_twitter_system(twitter *twitter_system)
 {
     int i; //no. of users filled
@@ -16,17 +16,18 @@ void create_twitter_system(twitter *twitter_system)
 
     for (i = 0; i < MAX_USERS; i++)
     {
-        printf("Enter a unique username, or enter exit to end input.\n");
-        fgets(twitter_system->userlist[i].username, USR_LENGTH, stdin); //take in username
+        // take in username
+        printf("Enter a unique username, or enter exit to end input:\n");
+        fgets(twitter_system->userlist[i].username, USR_LENGTH, stdin);
 
-        //error handling for replacing newline with null string terminator
+        // error handling for replacing newline with null string terminator
         if (twitter_system->userlist[i].username[strlen(twitter_system->userlist[i].username)-1] == '\n')
         { twitter_system->userlist[i].username[strlen(twitter_system->userlist[i].username)-1] = '\0'; }
 
-        //if there is a valid name given
+        // if the user gives a valid username that isn't exit
         if (strcasecmp(twitter_system->userlist[i].username, escapeinput) != 0)
         {
-            //populate the struct with empty values
+            // populate the struct with empty values
             twitter_system->userlist[i].num_followers = 0;
             twitter_system->userlist[i].num_following = 0;
 
@@ -37,20 +38,20 @@ void create_twitter_system(twitter *twitter_system)
             { twitter_system->userlist[i].following[k] = NULL; }
         }
 
-        else
+        else // if user puts in the phrase "exit"
         { break; }
     }
 
-    twitter_system->filledusers = i; //store number of users in struct
-    twitter_system->filledusers = i; //store number of users in global variable (for general use in main)
+    // other initialisers
+    twitter_system->filledusers = i; // store number of users in array inside struct twitter system
+    twitter_system->tweetcount = 0; // initialises tweet count to 0 inside struct twitter system
+    twitter_system->mostrecenttwt = NULL; // initialises start of tweet stack to NULL (no tweets yet)
+} // end create twitter function
 
-    twitter_system->tweetcount = 0;
-    twitter_system->mostrecenttwt = NULL;
-}
-
-//Whole userlist print function
+// whole user list print function
 void printUsers (twitter * twitter_system)
 {
+    // iterate through all existing users
     for (int i = 0; i < twitter_system->filledusers; i++)
     {
         printf("User name is: ");
@@ -58,4 +59,4 @@ void printUsers (twitter * twitter_system)
         printf("with %d followers and %d following.\n", twitter_system->userlist[i].num_followers,
                twitter_system->userlist[i].num_following);
     }
-}
+} //end print users function
