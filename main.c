@@ -15,8 +15,6 @@ int main() {
 
     printf("\nWelcome to Twitter! Please make a series of users within this current system.\n");
     create_twitter_system(&twitter_system);    // Function call, creates the twitter system and adds users
-    printf("\nThe list of users now is: \n");
-    printUsers(&twitter_system);     // Function call, prints out all users created
 
     // Menu of functions, loops through all users
     for (int i = 0; i < twitter_system.filledusers; i++) {
@@ -30,8 +28,9 @@ int main() {
 
             // Requesting user input from a selection of options
             printf("Enter 1 to write a tweet, 2 to get your news feed, 3 to follow a user, \n"
-                   "4 to unfollow a user, 5 to delete your account, 6 to end your turn, 7 to print \n"
-                   "all user or 8 to end the program: \n");
+                   "4 to unfollow a user, 5 to print out all the users in the current system, \n"
+                   "6 to delete your account, 7 to end your turn or 8 to end the program: \n");
+
 
             // Variable for storing the users input on the menu selection
             char menuSelection;
@@ -45,44 +44,54 @@ int main() {
             switch (menuSelection) {
                 case '1': // Allows user to post a tweet
                     postTweet(&twitter_system.userlist[i], &twitter_system);
+                    printf("\n-------------------------------------\n");
                     break;
 
                 case '2': // Prints news feed (currently prints out all tweets)
                     printf("%s", "Printing news feed: \n \n");
                     newsFeed (&twitter_system.userlist[i], &twitter_system);
+                    printf("\n-------------------------------------\n");
                     break;
 
                 case '3': // User follows other users
                     followUser(&twitter_system.userlist[i], &twitter_system);
+                    printf("\n-------------------------------------\n");
                     break;
 
                 case '4': // User unfollows other users
                     unfollowUser(&twitter_system.userlist[i], &twitter_system);
+                    printf("\n-------------------------------------\n");
                     break;
 
-                case '5': //User deletes their account
+                case '5': // Prints whole user list
+                    printf("The list of users now is: \n");
+                    printUsers(&twitter_system);
+                    printf("\n-------------------------------------\n");
+                    break;
+
+                case '6': //User deletes their account
                     deleteUser (&twitter_system.userlist[i], &twitter_system);
                     userPass = 1;
                     i--; // Decrementing variable representing the current user to prevent a user being skipped
-                    printf("Account deleted, passing to next user");
+                    printf("Account deleted, passing to next user.\n");
+                    printf("\n-------------------------------------\n");
                     break;
 
-                case '6': // User chooses to end their turn
+                case '7': // User chooses to end their turn
                     userPass = 1;
-                    printf("Turn ended \n");
-                    break;
-
-                case '7': // Prints all users
-                    printf("\nThe list of users now is: \n");
-                    printUsers(&twitter_system);
+                    printf("Turn ended.\n");
+                    printf("\n-------------------------------------\n");
                     break;
 
                 case '8': // Ends the program
-                    printf("Ending program");
+                    printf("Ending program.\n");
+                    printf("\n-------------------------------------\n");
                     exit(0);
 
                 default: // Informs the user of invalid input
-                    printf("Invalid input\n");
+                    printf("Invalid input.\n");
+                    printf("\n-------------------------------------\n");
+                    fflush(stdin);
             }
         }
     }

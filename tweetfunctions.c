@@ -67,7 +67,6 @@ void newsFeed (user *currentUser, twitter *twitter_system)
             printf("%s", tweetPtr->user);
             printf("%s", "\n");
             printf("%s", tweetPtr->msg);
-            printf("%s", "-------------------- \n\n");
         }
 
         // If the current tweet was not written by the current user, this loop checks to see if it was written by any of the users
