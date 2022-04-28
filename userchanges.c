@@ -13,7 +13,6 @@ void followUser (user *currentUser, twitter *twitter_system)
     char followname[USR_LENGTH];
 
     printf("Enter 1 to follow a specific user, 2 for the list of users, or any other number to exit: \n");
-    fflush(stdin);
     scanf("%d", &userChoice);
 
     while (userChoice == 1 || userChoice == 2)
@@ -59,6 +58,7 @@ void followUser (user *currentUser, twitter *twitter_system)
                     twitter_system->userlist[i].followers[location2] = currentUser->username;
                     twitter_system->userlist[i].num_followers++; //increment follower count
 
+                    printf("You have successfully followed user %s.\n\n", followname);
                     found = 1; // switch bool to jump out of while loop
                 }
                 i++; // increment while loop to next user in userlist to be checked
@@ -66,9 +66,6 @@ void followUser (user *currentUser, twitter *twitter_system)
 
             if (alreadyfollow == 0 && found == 0) // if given username is not found in the whole userlist
             { printf("This user doesn't exist. Please try again.\n"); }
-
-            else if (alreadyfollow == 0 && found == 1)
-            { printf("You have successfully followed user %s.\n\n", followname); }
         } //end user choice 1
 
         else if (userChoice == 2) // user wants to print out whole user list
