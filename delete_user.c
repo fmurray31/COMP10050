@@ -90,4 +90,5 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
                 }
             }
         } // End loop through users for following lists
+        --twitter_system->filledusers; // Decrements filled users count
 } // End deleteUser function
