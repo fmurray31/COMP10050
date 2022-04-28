@@ -71,6 +71,7 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
             if (prevTweetPtr != NULL) prevTweetPtr->previoustwt = tweetPtr;
             // If the deleted tweet was the first in the list, fixes the most recent tweet pointer
             else twitter_system->mostrecenttwt = tweetPtr;
+            --twitter_system->tweetcount;
         }
 
         // If a tweet was not written by the deleted user, walks previous tweet pointer and tweet pointer to the next items in the list

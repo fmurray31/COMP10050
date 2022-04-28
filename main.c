@@ -22,8 +22,6 @@ int main() {
         // Variable to check whether a user has passed
         int userPass = 0;
 
-
-
         // Loop runs until the user passes their turn to the next user, or the program is ended
         while (userPass == 0) {
             // Prints current user
@@ -35,44 +33,45 @@ int main() {
                    "7 to end the program: \n");
 
             // Variable for storing the users input on the menu selection
-            int menuSelection;
+            char menuSelection;
 
             // Requesting user input
-            scanf("%d", &menuSelection);
+            fflush(stdin);
+            fgets(&menuSelection, 2, stdin);
             printf("%s", "\n");
 
             // Switch statement to work through different menu options
             switch (menuSelection) {
-                case 1: // Allows user to post a tweet
+                case '1': // Allows user to post a tweet
                     postTweet(&twitter_system.userlist[i], &twitter_system);
                     break;
 
-                case 2: // Prints news feed (currently prints out all tweets)
+                case '2': // Prints news feed (currently prints out all tweets)
                     printf("%s", "Printing news feed: \n \n");
                     newsFeed (&twitter_system.userlist[i], &twitter_system);
                     break;
 
-                case 3: // User follows other users
+                case '3': // User follows other users
                     followUser(&twitter_system.userlist[i], &twitter_system);
                     break;
 
-                case 4: // User unfollows other users
+                case '4': // User unfollows other users
                     unfollowUser(&twitter_system.userlist[i], &twitter_system);
                     break;
 
-                case 5: //User deletes their account
+                case '5': //User deletes their account
                     deleteUser (&twitter_system.userlist[i], &twitter_system);
                     userPass = 1;
                     i--; // Decrementing variable representing the current user to prevent a user being skipped
                     printf("Account deleted, passing to next user");
                     break;
 
-                case 6: // User chooses to end their turn
+                case '6': // User chooses to end their turn
                     userPass = 1;
                     printf("Turn ended \n");
                     break;
 
-                case 7: // Ends the program
+                case '7': // Ends the program
                     printf("Ending program");
                     exit(0);
 
