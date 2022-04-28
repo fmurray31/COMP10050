@@ -20,7 +20,8 @@ void followUser (user *currentUser, twitter *twitter_system)
         if (userChoice == 1) // user chooses to follow someone
         {
             printf("Enter the name of the user you would like to follow: \n");
-            fscanf(stdin, "%s", followname); // user input for name of person they want to follow
+            fflush(stdin);
+            fgets(followname, USR_LENGTH, stdin); // user input for name of person they want to follow
 
             // error handling for adding string null terminator
             if ( followname[strlen(followname)-1] == '\n')
@@ -39,7 +40,7 @@ void followUser (user *currentUser, twitter *twitter_system)
                 m++; // increment through current user's following list
             }
 
-            // now check if the given user exists, given that you dont already follow them
+            // now check if the given user exists, given that you don't already follow them
             int i = 0;
             int found = 0; // bool to see if there is a matching user in userlist
             while (i < twitter_system->filledusers && alreadyfollow == 0 && found == 0) // iterate through all existing users
@@ -52,20 +53,10 @@ void followUser (user *currentUser, twitter *twitter_system)
                     currentUser->following[location1] = twitter_system->userlist[i].username;
                     currentUser->num_following++; //increment their following count (useful to place next follower into follower array)
 
-                    // error checking printf's
-                    printf("Your following count is now: %d.\n", currentUser->num_following);
-                    printf("You now follow: ");
-                    printf("%s\n", currentUser->following[location1] );
-
                     // implement having the other person's follower count and follower list increase
                     int location2 = twitter_system->userlist[i].num_followers; //initially 0
                     twitter_system->userlist[i].followers[location2] = currentUser->username;
                     twitter_system->userlist[i].num_followers++; //increment follower count
-
-                    // error checking printf's
-                    printf("Your follower count is now: %d.\n", twitter_system->userlist[i].num_followers);
-                    printf("You are now followed by: ");
-                    printf("%s\n", twitter_system->userlist[i].followers[location2]);
 
                     found = 1; // switch bool to jump out of while loop
                 }
@@ -77,7 +68,11 @@ void followUser (user *currentUser, twitter *twitter_system)
         } //end user choice 1
 
         else if (userChoice == 2) // user wants to print out whole user list
-        { printUsers(twitter_system); } // call helper function
+        {
+            printf("\n");
+            printUsers(twitter_system); // call helper function
+            printf("\n");
+        }
 
         // next round of choices in while loop for follow or exit
         printf("Enter 1 to follow a specific user, 2 for the list of users, or any other number to exit.\n");
@@ -99,7 +94,8 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
         if (userChoice == 1) // user chooses to unfollow someone
         {
             printf("Enter the name of the user you would like to unfollow: \n");
-            fscanf(stdin, "%s", unfollowname); // user input for name of person they want to follow
+            fflush(stdin);
+            fgets(unfollowname, USR_LENGTH, stdin); // user input for name of person they want to follow
 
             // error handling for adding string null terminator
             if ( unfollowname[strlen(unfollowname)-1] == '\n')
@@ -115,16 +111,13 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
                 if ( strcmp(currentUser->following[i], unfollowname) == 0 ) // if a matching user is found in following list
                 {
                     int j = i;
-                    printf("Found in following list: %s, at position: %d\n\n", currentUser->following[i], i); // error checking
                     while ( (j < numfollowing) && (currentUser->following[j] != NULL) ) // starting from place we found user to be unfollowed
                     {
                         currentUser->following[j] =  currentUser->following[j+1]; // make string pointer point to next user
-                        printf("Current user is now: %s\n", currentUser->following[j]); // error checking
                         j++;
                     }
                     currentUser->following[j] = NULL; // place an empty in the last location after carry-overs of following done
                     currentUser->num_following--; // decrement number of following
-                    printf("Current no of following is: %d\n", currentUser->num_following);
 
                     // implement having the other person's follower count and follower list decrease
                     int k = 0;
@@ -143,7 +136,6 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
                             }
                             twitter_system->userlist[k].followers[l] = NULL; // at the last position of follower list, overwrite extra
                             twitter_system->userlist[k].num_followers--; // decrement unfollowed user's follower count
-                            printf("Current no of followers is: %d\n", twitter_system->userlist[k].num_followers); // error checking
                             found2 = 1; // bool switch, jump out of inner while loop
                         }
                         k++; // increment inner while loop to next in twitter userlist
@@ -160,11 +152,13 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
 
         else if (userChoice == 2) //if user wants to print their following list
         {
+            printf("\n");
             printf("You are currently following: \n");
             for (int i = 0; i < currentUser->num_following; i++)
             {
                 printf("%d: %s\n", i+1, currentUser->following[i]); //just prints their names stored in array as strings
             }
+            printf("\n");
         } //end user choice 2
 
         //next round of choices for follow or exit

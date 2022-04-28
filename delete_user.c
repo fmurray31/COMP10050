@@ -54,20 +54,32 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
     tweet *tweetPtr = twitter_system->mostrecenttwt;
     tweet *prevTweetPtr = NULL;
 
+    // Loop runs until the end of the linked list
     while (tweetPtr != NULL)
     {
+        // Checks if each tweet was written by the deleted user
         if (strcmp(tweetPtr->user, currentUser->username) == 0)
         {
-            tweet *temp = tweetPtr;
+            // Temporary pointer for the deleted tweet
+            tweet *tempPtr = tweetPtr;
+            // Incrementing tweet pointer
             tweetPtr = tweetPtr->previoustwt;
-            free (temp);
-            --twitter_system->tweetcount;
+            // Freeing the deleted tweet
+            free (tempPtr);
+            // Checking if the previous tweet is NULL (ie the deleted tweet was the first in the list), if not
+            // repairs the linked list by linking the previous tweet to the next in line
             if (prevTweetPtr != NULL) prevTweetPtr->previoustwt = tweetPtr;
+            // If the deleted tweet was the first in the list, fixes the most recent tweet pointer
+            else twitter_system->mostrecenttwt = tweetPtr;
         }
 
-        prevTweetPtr = tweetPtr;
-        if (tweetPtr != NULL) tweetPtr = tweetPtr->previoustwt;
-    }
+        // If a tweet was not written by the deleted user, walks previous tweet pointer and tweet pointer to the next items in the list
+        else
+        {
+            prevTweetPtr = tweetPtr;
+            tweetPtr = tweetPtr->previoustwt;
+        }
+    } // Ends while loop through list of tweets
 
 
     // Deleting currentUser from the list of users
@@ -81,18 +93,6 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
             {
                 twitter_system->userlist[j] = twitter_system->userlist[j+1];
             }
-
-            user *deletedUser = &twitter_system->userlist[j];
-
-            twitter_system->userlist[j-1].nextUserPtr = twitter_system->userlist[j].nextUserPtr;
-
-            twitter_system->userlist[j].nextUserPtr = NULL;
-
-
-            //free (deletedUser);
-
-            --twitter_system->filledusers; // Decrements filledusers
         }
-
     } // End loop through users for following lists
 } // End deleteUser function

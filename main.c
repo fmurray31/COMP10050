@@ -14,6 +14,7 @@ int main() {
     twitter twitter_system;
 
     create_twitter_system(&twitter_system);    // Function call, creates the twitter system and adds users
+    printf("%s", "\n");
     printUsers(&twitter_system);     // Function call, prints out all users created
 
     // Menu of functions, loops through all users
@@ -21,11 +22,13 @@ int main() {
         // Variable to check whether a user has passed
         int userPass = 0;
 
-        // Prints current user
-        printf("\nCurrent user is: %s\n\n", twitter_system.userlist[i].username);
+
 
         // Loop runs until the user passes their turn to the next user, or the program is ended
         while (userPass == 0) {
+            // Prints current user
+            printf("\nCurrent user is: %s\n\n", twitter_system.userlist[i].username);
+
             // Requesting user input from a selection of options
             printf("Enter 1 to write a tweet, 2 to get your news feed, 3 to follow a user, \n"
                    "4 to unfollow a user, 5 to delete your account, 6 to end your turn or \n"
@@ -36,6 +39,7 @@ int main() {
 
             // Requesting user input
             scanf("%d", &menuSelection);
+            printf("%s", "\n");
 
             // Switch statement to work through different menu options
             switch (menuSelection) {
@@ -44,6 +48,7 @@ int main() {
                     break;
 
                 case 2: // Prints news feed (currently prints out all tweets)
+                    printf("%s", "Printing news feed: \n \n");
                     newsFeed (&twitter_system.userlist[i], &twitter_system);
                     break;
 

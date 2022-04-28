@@ -39,28 +39,12 @@ void postTweet(user *currentUser, twitter *twitter_system)
             newtweet->previoustwt = twitter_system->mostrecenttwt;
             twitter_system->mostrecenttwt = newtweet;
         }
-
-        // error checking printf's
-        printf("You have successfully posted your tweet:\n");
-        printf("%s\n", twitter_system->mostrecenttwt->msg);
-        printf("There are currently %d tweets.\n\n", twitter_system->tweetcount);
     }
 
     else // if malloc fails and tweet not created
     { printf("There was an issue with making space for your tweet. Please try again.\n"); }
 } // end of postTweet function
 
-
-// Temp tweet print function
-void tempTweetPrint (void)
-{
-    // Iterates through every tweet, printing each one and the relevant user
-    for (int i=0; i<tweetCount; i++)
-    {
-        printf("%s \n", tweetList[i].user);
-        printf("%s \n\n", tweetList[i].msg);
-    }
-}
 
 // News feed function, prints the 10 most recent tweets from the current user and any users they re following
 void newsFeed (user *currentUser, twitter *twitter_system)
@@ -79,8 +63,11 @@ void newsFeed (user *currentUser, twitter *twitter_system)
         {
             // If there is a match, increments the counter of printed tweets and prints the username and contents of the current tweet
             found10++;
-            printf("%s \n", tweetPtr->user);
-            printf("%s \n\n", tweetPtr->msg);
+            printf("%d: ", found10);
+            printf("%s", tweetPtr->user);
+            printf("%s", "\n");
+            printf("%s", tweetPtr->msg);
+            printf("%s", "-------------------- \n\n");
         }
 
         // If the current tweet was not written by the current user, this loop checks to see if it was written by any of the users
@@ -99,4 +86,6 @@ void newsFeed (user *currentUser, twitter *twitter_system)
         // Increments the tweet pointer to the next most recent tweet
         tweetPtr = tweetPtr->previoustwt;
     } // End while loop
+
+    if (found10 == 0) printf("%s \n", "No relevant tweets found");
 } // End newsFeed function
