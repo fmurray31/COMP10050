@@ -44,7 +44,6 @@ typedef struct user
     int num_followers;
     char *following[MAX_FOLLOWING]; //array of strings
     int num_following;
-    struct user *nextUserPtr;
 }user;
 
 //POINTER TO A DATA TYPE OF STRUCT USER
