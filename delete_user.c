@@ -19,10 +19,10 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
                 if (strcmp(currentUser->username, twitter_system->userlist[i].following[j]) == 0) {
                     // If a match is found, moves the deleted user to the end of the following array
                     for (k = j; k < twitter_system->userlist[i].num_following; k++) {
-                        twitter_system->userlist[i].following[k] = twitter_system->userlist[i].following[k + 1];
+                        strcpy(twitter_system->userlist[i].following[k], twitter_system->userlist[i].following[k + 1]);
                     }
 
-                    twitter_system->userlist[i].following[k] = NULL; // Sets the pointer to the deleted username to NULL
+                    strcpy(twitter_system->userlist[i].following[k], ""); // Sets the final, duplicated username to NULL
 
                     --twitter_system->userlist[i].num_following; // Decrementing following count
                 }
@@ -33,17 +33,17 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
         // Deleting currentUser from all other user's followed lists
         for (i = 0; i < twitter_system->filledusers; i++) // Iterate through all users
         {
-            for (j = 0; j < currentUser->num_followers; j++) // Iterate through user followers
+            for (j = 0; j < twitter_system->userlist[i].num_followers; j++) // Iterate through user followers
             {
                 // Checks name of user to be deleted against each user's follower lists
                 if (strcmp(currentUser->username, twitter_system->userlist[i].followers[j]) == 0) {
 
                     // If a match is found, moves the deleted user to the end of the following array
                     for (k = j; k < twitter_system->userlist[i].num_followers; k++) {
-                        twitter_system->userlist[i].followers[k] = twitter_system->userlist[i].followers[k + 1];
+                        strcpy(twitter_system->userlist[i].followers[k], twitter_system->userlist[i].followers[k + 1]);
                     }
 
-                    twitter_system->userlist[i].followers[k] = NULL; // Sets the pointer to the deleted username to NULL
+                    strcpy(twitter_system->userlist[i].followers[k], ""); // Sets the final, duplicated username to NULL
 
                     --twitter_system->userlist[i].num_followers; // Decrementing followers count
                 }
@@ -85,7 +85,7 @@ void deleteUser (user *currentUser, twitter *twitter_system) {
             // Searches for currentUser in the list of users
             if (strcmp(currentUser->username, twitter_system->userlist[i].username) == 0) {
                 // Moves deleted user to the end of the array of users
-                for (j = i; j < twitter_system->filledusers; j++) {
+                for (j = i; j < twitter_system->filledusers-1; j++) {
                     twitter_system->userlist[j] = twitter_system->userlist[j + 1];
                 }
             }

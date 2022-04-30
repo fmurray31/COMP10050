@@ -40,9 +40,9 @@ typedef struct tweet
 typedef struct user
 {
     char username[USR_LENGTH];
-    char *followers[MAX_FOLLOWERS]; //array of strings
+    char followers[MAX_FOLLOWERS][USR_LENGTH]; //array of strings
     int num_followers;
-    char *following[MAX_FOLLOWING]; //array of strings
+    char following[MAX_FOLLOWING][USR_LENGTH]; //array of strings
     int num_following;
 }user;
 

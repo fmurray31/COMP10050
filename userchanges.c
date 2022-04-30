@@ -59,12 +59,12 @@ void followUser (user *currentUser, twitter *twitter_system)
                 {
                     // store matching name in string array of following, at location indexed by number of followers
                     int location1 = currentUser->num_following;
-                    currentUser->following[location1] = twitter_system->userlist[i].username;
+                    strcpy(currentUser->following[location1], twitter_system->userlist[i].username);
                     currentUser->num_following++; //increment their following count (useful to place next follower into follower array)
 
                     // implement having the other person's follower count and follower list increase
                     int location2 = twitter_system->userlist[i].num_followers; //initially 0
-                    twitter_system->userlist[i].followers[location2] = currentUser->username;
+                    strcpy(twitter_system->userlist[i].followers[location2], currentUser->username);
                     twitter_system->userlist[i].num_followers++; //increment follower count
 
                     printf("You have successfully followed user %s.\n\n", followname);
@@ -123,10 +123,10 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
                     int j = i;
                     while ( (j < numfollowing) && (currentUser->following[j] != NULL) ) // starting from place we found user to be unfollowed
                     {
-                        currentUser->following[j] =  currentUser->following[j+1]; // make string pointer point to next user
+                        strcpy(currentUser->following[j], currentUser->following[j+1]); // incrementing to next user
                         j++;
                     }
-                    currentUser->following[j] = NULL; // place an empty in the last location after carry-overs of following done
+                    strcpy(currentUser->following[j], ""); // place an empty in the last location after carry-overs of following done
                     currentUser->num_following--; // decrement number of following
 
                     // implement having the other person's follower count and follower list decrease
@@ -141,10 +141,10 @@ void unfollowUser (user *currentUser, twitter *twitter_system)
                             //iterate through unfollowed user's followers list
                             while ((l < numfollowers) &&  (twitter_system->userlist[k].followers[l] != NULL) )
                             {   //if current user's name is found
-                                twitter_system->userlist[k].followers[l] = twitter_system->userlist[k].followers[l+1]; // overwrite their name
+                                strcpy(twitter_system->userlist[k].followers[l], twitter_system->userlist[k].followers[l+1]); // overwrite their name
                                 l++; // do this for rest of array
                             }
-                            twitter_system->userlist[k].followers[l] = NULL; // at the last position of follower list, overwrite extra
+                            strcpy(twitter_system->userlist[k].followers[l], ""); // at the last position of follower list, overwrite extra
                             twitter_system->userlist[k].num_followers--; // decrement unfollowed user's follower count
                             found2 = 1; // bool switch, jump out of inner while loop
                         }
